@@ -1,0 +1,202 @@
+<!--
+
+ function initstate(linkcode,ddname,childlst){ 
+  
+  //alert("1. linkcode = " + linkcode + ", ddname = " + ddname);
+  var dmenu   =  document.getElementById(ddname);
+  
+  var link2 = "";
+  var linkhold = "";
+  
+  x1 = 0;
+  if (dmenu) {  
+   var x1 = (dmenu.length - 1);
+  }
+  else {
+   var dmenu   =  document.getElementByName(ddname); 
+   var x1 = (dmenu.length - 1);
+  }
+  
+  //
+  //alert("2. dmenu.length = " + x1);
+  //
+  for (i=0; i<x1; i++) {
+   dmenu.remove(dmenu[i]);   
+  }
+  //
+   
+  //alert("list0/LinkCode = " + childlst[0][2] + "..." + linkcode);
+
+  t1 = 0;
+  link2    = "";
+  for (j1=0 ; j1 < childlst.length ; j1++) {
+
+   if (childlst[j1][2]) {
+    compval  = childlst[j1][2];        
+   }
+   else {
+    compval = childlst[j1][1];
+   }
+
+   linkhold = compval;   
+    
+   if (linkcode == compval){
+    //remove ampersand from the drop down text
+    var t_str = childlst[j1][0].replace(/&amp;/g, '&');
+    //
+    if (t1==0) {
+     dmenu[t1].text  = t_str;
+     dmenu[t1].value = childlst[j1][1];
+     link2 = childlst[j1][1];
+    }
+    else {
+     dmenu[t1] = new Option(t_str,childlst[j1][1]);    
+    }
+    t1++;
+   }
+  }    
+  ///
+  if (t1 == 0) {
+   dmenu[0].text  = 'UNKNOWN';
+   dmenu[0].value = 'NONE';
+  } 
+
+  return link2;
+ } 
+
+
+ function initstate2(linkcode1,linkcode2,ddname1,ddname2,childlst1,childlst2){ 
+  rlink = initstate(linkcode1,ddname1,childlst1);
+
+  rlink2 = initstate(rlink,ddname2,childlst2); 
+
+ }
+
+ function initstate3(linkcode,ddname,childlst){ 
+  /*
+  We specify the default in this function
+  */
+  
+  //alert("1. linkcode = " + linkcode + ", ddname = " + ddname);
+  var dmenu   =  document.getElementById(ddname);
+  
+  var link2 = "";
+  var linkhold = "";
+  
+  x1 = 0;
+  if (dmenu) {  
+   var x1 = (dmenu.length - 1);
+  }
+  else {
+   var dmenu   =  document.getElementByName(ddname); 
+   var x1 = (dmenu.length - 1);
+  }
+  
+  //
+  //alert("2. dmenu.length = " + x1);
+  //
+  for (i=0; i<x1; i++) {
+   dmenu.remove(dmenu[i]);   
+  }
+  //
+   
+  //specify the default
+  dmenu[0].text  = 'No Item Selected';
+  dmenu[0].value = 'NONE';
+   
+  //alert("list0/LinkCode = " + childlst[0][2] + "..." + linkcode);
+
+  t1 = 1;
+  link2    = "";
+  for (j1=0 ; j1 < childlst.length ; j1++) {
+
+   if (childlst[j1][2]) {
+    compval  = childlst[j1][2];        
+   }
+   else {
+    compval = childlst[j1][1];
+   }
+
+   linkhold = compval;   
+    
+   
+   if (linkcode == compval){
+    //remove ampersand from the drop down text
+    var t_str = childlst[j1][0].replace(/&amp;/g, '&');
+    //
+    if (t1==1) {
+     link2 = childlst[j1][1];
+    }
+    //else {
+    dmenu[t1] = new Option(t_str,childlst[j1][1]);    
+    //}
+    t1++;
+   }
+  }    
+  ///
+
+  return link2;
+ } 
+ function initmdays(mmonth,ddname,yyear){            
+  var dmenu   = document.getElementById(ddname);
+  var x1     = (dmenu.length - 1);
+  var cindex = dmenu[dmenu.selectedIndex].value;
+  for (i=0; i<x1; i++) {
+   dmenu.remove(dmenu[i]);   
+  }
+  
+  //alert("Selected Index, ddname = " + cindex + "..." + dmenu.name);
+
+  leapy = false;
+  if (((yyear%4)==0) && (((yyear%100)!=0) || ((yyear%400)==0))) {
+   leapy = true;
+  }
+
+  //Month Group
+  if ((mmonth==9) || (mmonth==4) || (mmonth==6) || (mmonth==11)){
+   mgrp = 1;
+  }
+  else if (mmonth==2){
+   mgrp = 2;
+  }
+  else {
+   mgrp = 3;
+  }
+  
+  //
+  dmenu[0].text  = 'Day';
+  dmenu[0].value = 'NONE';
+  t1 = 1;
+  for (xi=1; xi<=31; xi++) {
+   if (xi <= 9) {
+    xx = "0" + xi;
+   }
+   else {
+    xx = xi;
+   }
+    
+   if ( (mmonth==0) || (xi <= 28) || (mgrp == 3) ||
+         ((xi==29) && (mgrp ==2) && (leapy)) || 
+         ((mgrp == 1) && (xi <= 30)) ) {
+    if (t1==0) {
+     dmenu[t1].text  = xx;
+     dmenu[t1].value = xx;
+    }
+    else {
+     dmenu[t1] = new Option(xx,xx);    
+    }
+    t1++;    
+   }     
+  }   
+
+  //
+  if (cindex <= t1) {
+   dmenu.selectedIndex = cindex;
+  }    
+ } 
+
+ function cleartext(formitem) {
+  formitem.value = "";
+ }
+  
+//-->

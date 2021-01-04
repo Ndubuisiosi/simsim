@@ -1,0 +1,58 @@
+<style><?php include 'vendors/css/normalize.css'; ?></style>
+      <style><?php include 'vendors/css/grid.css'; ?></style>
+      <style><?php include 'vendors/css/ionicons.min.css'; ?></style>
+      <style><?php include 'vendors/css/animate.css'; ?></style>
+      <style><?php include 'resources/css/org.css'; ?></style>
+      <style><?php include 'https://fonts.googleapis.com/css?family=Lato:100,300,300i,400&display=swap'; ?>
+</style>
+
+<!DOCTYPE html>
+<html>
+    <head>
+      <style><?php include 'resources/css/App.css'; ?></style>
+      <style><?php include 'vendors/css/normalize.css'; ?></style>
+      <style><?php include 'vendors/css/grid.css'; ?></style>
+      <style><?php include 'vendors/css/ionicons.min.css'; ?></style>
+      <style><?php include 'vendors/css/animate.css'; ?></style>
+      <style><?php include 'https://fonts.googleapis.com/css?family=Lato:100,300,300i,400&display=swap'; ?></style>
+      
+
+        <title>AppStore</title>
+    </head>
+
+    <body>
+        <section class ='form-2'>
+            <form method="POST" action ="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" class='app-from'>
+
+            <h2> Application form</h2>
+
+            Application Name: <input type='text' name='AppName' placeholder='App name' required>
+            <br><br>
+
+            Application Category:  <select name="AppCategory">
+                                        <option value="Technology" selected>Technology</option>
+                                        <option value="social">Social</option>
+                                        <option value="Games">Games</option>
+                                        <option value="other">Others</option>
+                                    </select><br><br>
+            
+            Description: <textarea name = 'AppDescrip' rows = '5' cols = '40'><?php echo $AppDescrip; ?></textarea>
+            <br><br>
+
+            Logo: <input type='image' name='AppLogo' value='Image' required>
+            <br><br>
+
+            Download Link: <input type='text' name='AppDownload' required>
+            <br><br>
+
+            <input type='submit' name='submit' value='send it'>
+
+            </form>
+    </section>
+    </body>
+
+
+
+
+</html>
+

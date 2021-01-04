@@ -1,0 +1,1390 @@
+<!--  
+  
+ /* ..... Start: VF-001_reports0..... */
+ function call_creqprint(doctoprint,pmode) {  
+  docdet =  doctoprint + "," + pmode;
+  action   = "get";
+  rtype    = "NLF";
+  rclass   = "2";
+  callnewwin3('financials/iestasks_clm_creqreps.php',docdet,'reportform2',action,rtype,rclass,'',600,340,70,20);   
+ } 
+ /* .....End........ */   
+
+ /* ..... Start: VF-001B_reports0..... */
+ function call_dvprint(doctoprint,pmode) {  
+  docdet =  doctoprint + "," + pmode;
+  action   = "get";
+  rtype    = "NLF";
+  rclass   = "3";
+  callnewwin3('non-life/iestasks_clm_dvreps.php',docdet,'reportform3',action,rtype,rclass,'',600,340,70,20);   
+ } 
+ /* .....End........ */    
+
+ /* ..... Start: VF-002_reports0..... */
+ function on_drag_docprint(lform,dobj,repnum) {
+  dobj.value = "";
+  curdoc = window.event.dataTransfer.getData("text");
+  
+  call_printforms(lform,curdoc,0);
+ } 
+ /* .....End........ */ 
+
+ /* ..... Start: VF-002B_reports0..... */
+ function call_printforms(lform,reqnum,pmode) {
+  reqnum = trimall(reqnum);
+  if (reqnum != "") {
+   //Print
+   dtype = "NLF";
+   dcode = "";
+   ccls  = 2; //Requisition
+   dgrp  = reqnum + "," + dtype + ",,,," + dcode;
+   act   = "view";
+   rfname = "docfolder/repcreq_container.php";
+   callrep1(rfname,dgrp,'repformview1',act,ccls,dtype,dcode,800,650,0,0);    
+  }
+  else {
+   alert("Requsition No Must Be Specified...");
+   lform.prtdoc.focus();
+  }
+ } 
+ /* .....End........ */ 
+
+
+ /* ..... Start: VF-003_reports0..... */
+ function resolve_optionsobj(lform,optobj,action,val) { 
+        
+  if (action == "init") {
+   if (optobj[val]) {    
+    optobj[val].checked = true;        
+   } 
+   else if (optobj) {
+    optobj.checked = true;        
+   }
+  }      
+  else if (action == "setval") { 
+   //Dest
+   if (optobj[0]) {
+    cnt = optobj.length; 
+    for (xi=0;xi<cnt;xi++) {
+     if (optobj[xi].checked == true) {
+      if (optobj[xi].name == "rd_docdest") {
+       lform.pdest.value = xi;
+      }
+      else if (optobj[xi].name == "rd_order") {
+       lform.porder.value = xi;
+      }
+      if (optobj[xi].name == "rd_filter") {
+       lform.pfilter.value = xi; 
+      }  
+      break;  
+     }   
+    }     
+   }
+   else {
+
+    if (optobj.checked == true) {
+     if (optobj.name == "rd_docdest") {
+      lform.pdest.value = 0;
+     }
+     else if (optobj.name == "rd_order") {
+      lform.porder.value = 0;
+     }
+     if (optobj.name == "rd_filter") {
+      lform.pfilter.value = 0; 
+     }  
+    }
+   } 
+  }   
+        
+ } 
+ /* .....End........ */ 
+
+
+ /* ..... Start: VF-004_reports0..... */
+ function proc_reports(lform,action,reptype) {
+  
+  //Reptype 0=Db/Cr Note, 1=Cheque Req., 2=Discharge Vouchers
+  //
+  okval  = true;   
+
+
+  dcode   = lform.dd_repformat[lform.dd_repformat.selectedIndex].value; 
+  agency  = lform.dd_agency[lform.dd_agency.selectedIndex].value; 
+
+  strdate = lform.dd_strdate[lform.dd_strdate.selectedIndex].value; 
+  enddate = lform.dd_enddate[lform.dd_enddate.selectedIndex].value;   
+
+  resolve_optionsobj(lform,lform.rd_docdest,'setval','');
+  pdest = lform.pdest.value;
+
+  resolve_optionsobj(lform,lform.rd_order,'setval','');
+  porder= lform.porder.value;
+
+  resolve_optionsobj(lform,lform.rd_filter,'setval','');
+  pfilter = lform.pfilter.value;
+
+
+  //Init
+  if (action == "chgagency") {
+  
+  }   
+
+  if ((action == 'send') || (action == 'view')) {
+   if ((reptype==0) && (lform.dcnumb.value == "") && (agency == "NONE") && (lform.polnum.value == "") && ((strdate == "NONE") || (enddate == "NONE")) ) {
+    alert("Please Indicate Document Number, Policy, Agency, or Date Range ...");
+    lform.dcnumb.focus();
+    okval = false;
+   }
+   else if ((reptype==2) && (lform.clmnum.value == "") && (agency == "NONE") && (lform.polnum.value == "") && ((strdate == "NONE") || (enddate == "NONE")) ) {
+    alert("Please Indicate Claim Number, Policy, Agency, or Date Range ...");
+    lform.dcnumb.focus();
+    okval = false;
+   }
+   else if ( (reptype==0) && ((agency != "NONE") || (lform.polnum.value != "")) && ((strdate == "NONE") || (enddate == "NONE")) ) { 
+    alert("Please Indicate A Date Range For The Current Selection ");
+    lform.dd_strdate.focus(); 
+    okval = false;
+   }
+   else if ( (reptype==0) && (lform.dcnumb.value == "") && ((lform.polnum.value != "") || (agency != "NONE")) && (strdate > enddate)  ) { 
+    alert("Please Indicate A Valid Date Range ");
+    lform.dd_strdate.focus(); 
+    okval = false;
+   }
+   else if ((strdate !="NONE") && (enddate !="NONE")) {
+    if (strdate > enddate) {
+     alert("Please Specify A Valid Date Range ");
+     lform.dd_strdate.focus(); 
+     okval = false;
+    }
+   }
+  } 
+    
+  if (okval) {
+   //Resolve
+   if (reptype==0) {
+    if (trimall(agency) == "NONE") {
+     if ((lform.dcnumb.value == "") && (lform.polnum.value == "") && (strdate == "NONE") && (enddate == "NONE")){
+      lform.polnum.value = lform.lpolnum.value;
+      lform.dcnumb.value = lform.ldocnum.value;
+     }
+    }
+    else {
+
+     lform.polnum.value = "";
+     lform.dcnumb.value = "";
+    }   
+   }
+   else if (reptype==1) {
+
+    if (trimall(agency) == "NONE") {
+     if ((lform.reqnum.value == "") && (lform.clmnum.value == "") && (strdate == "NONE") && (enddate == "NONE")){
+      lform.clmnum.value = lform.lclmnum.value;
+      lform.reqnum.value = lform.lreqnum.value;
+     }
+    }
+    else {
+     lform.clmnum.value = "";
+     lform.reqnum.value = "";
+    }   
+   }
+      
+   vwnote = "";
+   if (action == "view") {
+    vwnote = " ( View ) ";
+   } 
+   reqdet = " You Have Requested to \n ";
+   //Dest
+   if (vwnote == "") {
+    if (pdest == 0) {
+     reqdet = reqdet + " [ Print ] ";
+    }
+    else if (pdest == 1) {
+     reqdet = reqdet + " [ Email ] "; 
+    }
+    else if (pdest == 2) {
+     reqdet = reqdet + " [ Print and Email ] "; 
+    }
+    else if (pdest == 3) {
+     reqdet = reqdet + " [ Print or Email Based Clients Default ] "; 
+    }
+   }
+   else {
+    reqdet = reqdet + vwnote;
+   }
+
+       
+   //Order
+   ordnote = "";
+   if (reptype == 0) {
+    if (porder == 0) {
+     ordnote = " Db/Cr Number ";
+    }
+    else if (porder == 1) {
+     ordnote = " Policy Number ";
+    }
+    else if (porder == 2) {
+     ordnote = " Date ";
+    }     
+   }
+   else if (reptype == 1) {
+    if (porder == 0) {
+     ordnote = " Requisition Number ";
+    }
+    else if (porder == 1) {
+     ordnote = " Claim Number ";
+    }
+    else if (porder == 2) {
+     ordnote = " Date ";
+    }     
+   }
+   else if (reptype == 2) {
+    if (porder == 0) {
+     ordnote = " Claim Number ";
+    }
+    else if (porder == 1) {
+     ordnote = " Policy Number ";
+    }
+    else if (porder == 2) {
+     ordnote = " Date ";
+    }     
+   }
+
+   
+   //Filter
+   filternote = "";
+   if (reptype == 0) {
+    if (pfilter == 0) {
+     filternote = " Debit and Credit Notes ";
+    }
+    else if (pfilter == 1) {
+     filternote = " Only Debit Notes ";
+    }
+    else if (pfilter == 2) {
+     filternote = " OnlyCredit Notes ";
+    } 
+   }
+   else if (reptype == 1) {
+
+    if (pfilter == 0) {
+     filternote = " Pending Requisitions ";
+    }
+    else if (pfilter == 1) {
+     filternote = " Approved/Paid Requisitions ";
+    }
+    else if (pfilter == 2) {
+     filternote = " All Requisitions ";
+    } 
+
+   }
+   else if (reptype == 2) {
+
+    if (pfilter == 0) {
+     filternote = " Pending/Executed DV ";
+    }
+    else if (pfilter == 1) {
+     filternote = " Pending DV ";
+    }
+    else if (pfilter == 2) {
+     filternote = " Executed DV ";
+    } 
+
+   }
+      
+   if ((action == 'send') || (action == 'view')) {
+    //Doc Option
+    dopt = "";
+    selnarr = "";
+    if (reptype == 0) {
+     if (lform.dcnumb.value != "") {
+      reqdet = reqdet + "\n Debit/Credit Note Number ( " + lform.dcnumb.value + " )";
+      dopt = reqdet;
+     }
+     else if (lform.polnum.value != "") {
+      reqdet = reqdet + "\n All Debit/Credit Notes For Policy ( " + lform.polnum.value + " )"; 
+      if ((strdate != "NONE") && (enddate != "NONE")) {
+       reqdet = reqdet + " \n ... Generated Between " + strdate + " and " + enddate + " ...";
+      }
+      reqdet = reqdet + " \n +++ Ordered By " + ordnote + " +++";
+      reqdet = reqdet + " \n +++ " + filternote + "Will Be Selected +++";
+      dopt = reqdet;
+     }
+     selnarr = " Debit/Credit Notes ";
+    }
+    else if (reptype == 1) {
+     if (lform.reqnum.value != "") {
+      reqdet = reqdet + "\n Requisition Number ( " + lform.reqnum.value + " )";
+      dopt = reqdet;
+     }
+     else if (lform.clmnum.value != "") {
+      reqdet = reqdet + "\n All Requisitions For Claim ( " + lform.clmnum.value + " )"; 
+      if ((strdate != "NONE") && (enddate != "NONE")) {
+       reqdet = reqdet + " \n ... Generated Between " + strdate + " and " + enddate + " ...";
+      }
+      reqdet = reqdet + " \n +++ Ordered By " + ordnote + " +++";
+      reqdet = reqdet + " \n +++ " + filternote + "Will Be Selected +++";
+      dopt = reqdet;
+     }
+     selnarr = " Requisitions ";
+    }
+    else if (reptype == 2) {
+     lform.clmnum.value = uppercase(lform.clmnum.value);
+     if (lform.clmnum.value != "") {
+      reqdet = reqdet + "\n Claim Number ( " + lform.clmnum.value + " )";
+      dopt = reqdet;
+     }
+     else if (lform.polnum.value != "") {
+      reqdet = reqdet + "\n All Discharge Vouchers For Policy ( " + lform.polnum.value + " )"; 
+      if ((strdate != "NONE") && (enddate != "NONE")) {
+       reqdet = reqdet + " \n ... For Payment Between " + strdate + " and " + enddate + " ...";
+      }
+      reqdet = reqdet + " \n +++ Ordered By " + ordnote + " +++";
+      reqdet = reqdet + " \n +++ " + filternote + "Will Be Selected +++";
+      dopt = reqdet;
+     }
+     selnarr = " Discharge Vouchers ";
+    }
+
+    if ((dopt == "") && (agency != "NONE")) {
+     agencyname  = lform.dd_agency[lform.dd_agency.selectedIndex].text; 
+     reqdet = reqdet + "\n " + selnarr + " For Agency ( " + agencyname + " )"; 
+
+     if ((strdate != "NONE") && (enddate != "NONE")) {
+      reqdet = reqdet + " \n ... For Payment Between " + strdate + " and " + enddate + " ...";
+     }
+     reqdet = reqdet + " \n +++ Ordered By " + ordnote + " +++";
+     reqdet = reqdet + " \n +++ " + filternote + " Will Be Selected +++";     
+    }
+    else if ( (dopt == "") && (strdate != "NONE") && (enddate != "NONE")) {
+     reqdet = reqdet + "\n " + selnarr + " Generated Between ( " + strdate + " and " + enddate + " )";
+     reqdet = reqdet + " \n +++ Ordered By " + ordnote + " +++";
+     reqdet = reqdet + " \n +++ " + filternote + " Will Be Selected +++";     
+    }    
+   
+    resp = confirm(reqdet + " \n \n Please Confirm This ");      
+   }
+   else {
+    resp = true;
+   }
+    
+   if (resp) {
+    if (reptype == 0) {  
+     docdet = lform.dcnumb.value + "," + pdest   + "," + lform.polnum.value;
+    }
+    else if (reptype == 1) {  
+     docdet = lform.reqnum.value + "," + pdest   + "," + lform.clmnum.value;   
+    }
+    else if (reptype == 2) {  
+     docdet = lform.polnum.value + "," + pdest   + "," + lform.clmnum.value;   
+    }
+
+    docdet = docdet             + "," + dcode   + "," + agency ;
+    docdet = docdet             + "," + strdate + "," + enddate;
+    docdet = docdet             + "," + porder  + "," + pfilter;
+    rtype  = lform.doctype.value;
+    rclass = lform.selcls.value;
+
+    lform.datefrom.value = strdate;
+    lform.dateto.value   = enddate;
+     
+    if (action == "chgagency") {   
+     if (reptype == 0) {
+      postnewwin2(lform,'financials/iestasks_nl_dbcr3.php.php',docdet,action,rtype,rclass,'');   
+     }
+     else if (reptype == 1) {
+      postnewwin2(lform,'financials/iestasks_clm_creqreps.php',docdet,action,rtype,rclass,'');   
+     }
+     else if (reptype == 2) {
+      postnewwin2(lform,'non-life/iestasks_clm_dvreps.php',docdet,action,rtype,rclass,'');   
+     } 
+    }
+    else {
+     dtype = "NLF";
+     dcode = dcode;
+     ccls  = rclass;
+     dgrp  = docdet;
+     act   = action;
+
+     if (reptype == 0) {
+      rfname = "docfolder/repdbcr_container.php";
+      callrep1(rfname,dgrp,'repformview0',act,ccls,dtype,dcode,800,710,0,0);  
+     }
+     else if (reptype == 1) {
+      rfname = "docfolder/repcreq_container.php";
+      callrep1(rfname,dgrp,'repformview1',act,ccls,dtype,dcode,810,650,0,0);  
+     } 
+     else if (reptype == 2) {
+      rfname = "docfolder/dvoucher_container.php";
+      callrep1(rfname,dgrp,'repformview2',act,ccls,dtype,dcode,810,650,0,0);  
+     } 
+    }
+   }
+  }
+ } 
+ /* .....End........ */ 
+ 
+  /* ..... Start: VF-005_reports0..... */
+ function call_printadjben(lform,clmnum,pmode) {
+  clmnum = trimall(clmnum);
+  if (clmnum != "") {
+   //Print
+   dtype = "NLF";
+   dcode = "";
+   ccls  = 7; //Discharge Voucher 
+   dgrp  = "" + "," + dtype + "," + clmnum + ",,," + dcode;
+   act   = "view";
+   rfname = "docfolder/adjben_container.php";
+   callrep1(rfname,dgrp,'repformview3',act,ccls,dtype,dcode,800,650,0,0);    
+  }
+ } 
+ /* .....End........ */ 
+ 
+ /* ..... Start: VF-005_reports0..... */
+ function call_printdvoucher(lform,clmnum,pmode) {
+  clmnum = trimall(clmnum);
+  if (clmnum != "") {
+   email = '';
+   if(lform.emailaddr) {
+    email = lform.emailaddr.value;
+   }
+   
+   //Print
+   dtype = "NLF";
+   dcode = "";
+   othact = "";
+   ccls  = 3; //Discharge Voucher pdfbut,embut
+   // Pdf and Email Generation
+   if((pmode == 'pdfbut') || (pmode == 'embut')){
+     if((email == '') && (pmode == 'embut')){
+        alert("Email is required");
+        lform.emailaddr.focus();
+        return;
+     }
+     othact = pmode;
+   }
+   dgrp  = "" + "," + dtype + "," + clmnum + ",,," + dcode +",,,," + email + "," + othact;
+   
+   act   = "view";
+   rfname = "docfolder/dvoucher_container.php";
+   callrep1(rfname,dgrp,'repformview3',act,ccls,dtype,dcode,800,650,0,0);    
+  }
+ } 
+ /* .....End........ */ 
+
+/* ..... Start: VF-005_reports0..... */
+ function call_printdvoucherpdf(lform,clmnum,pmode) {
+  clmnum = trimall(clmnum);
+  if (clmnum != "") {
+   //Print
+   dtype = "NLF";
+   dcode = "";
+   ccls  = 3; //Discharge Voucher 
+   dgrp  = "" + "," + dtype + "," + clmnum + ",,," + dcode;
+   act   = "view";
+   rfname = "docfolder/dvoucher_container.php";
+   callrep1(rfname,dgrp,'repformview3',act,ccls,dtype,dcode,800,650,0,0);    
+  }
+ } 
+ /* .....End........ */ 
+ /* ..... Start: VF-006_reports0..... */
+ 
+ 
+ // Created to suite fixed asset class filter when Properties,plants and equipements is selected
+ function othproc_repspec(lform,action) { 
+   fxcls = lform.dd_restrict[lform.dd_restrict.selectedIndex].value;
+   othfa = lform.othfixedasset.value;
+   if(fxcls == othfa ){ 
+    lform.svalue.disabled = false;
+   }else{
+    lform.svalue.value = "NONE";
+    lform.svalue.disabled = true;
+   }
+   //alert(fxcls)
+
+}
+ /* ..... Start: VF-006_reports0..... */
+ function proc_repspec(lform,action) { 
+      //
+  okval  = true;   
+   
+  rgrp    = lform.dd_repgroup[lform.dd_repgroup.selectedIndex].value; 
+  subg    = lform.dd_subgroup[lform.dd_subgroup.selectedIndex].value; 
+  rep     = lform.dd_report[lform.dd_report.selectedIndex].value; 
+   
+  //
+  olay = "";
+  gdes = "";
+  if (lform.dd_outlay) {
+   olay = lform.dd_outlay[lform.dd_outlay.selectedIndex].value; 
+   gdes = lform.dd_outlay[lform.dd_outlay.selectedIndex].text;
+  }
+
+  //
+  datedesc = "";
+  valdesc  = "";
+  if (lform.dd_datetype) {
+   temp = lform.dd_datetype[lform.dd_datetype.selectedIndex].value; 
+   if (temp != 0) {
+    datedesc = lform.dd_datetype[lform.dd_datetype.selectedIndex].text; 
+   }
+  }
+  if (lform.dd_valtype) { 
+   temp = lform.dd_valtype[lform.dd_valtype.selectedIndex].value;
+   if (temp != 0) { 
+    valdesc = lform.dd_valtype[lform.dd_valtype.selectedIndex].text;
+   }
+  }
+  
+    
+  if (action == 'update') {
+   if (rgrp == "NONE") {
+    alert("Please Indicate The Report Group ...");
+    lform.dd_repgroup.focus();
+    okval = false;
+   }
+   else if (subg == "NONE") {
+    alert("Please Indicate The Report Sub-Group ...");
+    lform.dd_subgroup.focus();
+    okval = false;
+   } 
+   else if (rep == "NONE") {
+    alert("Please Indicate The Report Specification Record ...");
+    lform.dd_report.focus();
+    okval = false;
+   }
+   else if ((olay == "") || (olay == "NONE")) {
+    alert("The Report Outlay Details Must Be Specified..."); 
+    if (lform.dd_outlay) { 
+     lform.dd_outlay.focus();
+    }
+    okval = false;
+   }
+
+
+  } 
+
+  if (okval) {
+
+   if (action == "update" ){
+    resp = confirm("Please Confirm Update Of Report Title \n [" + lform.repheader.value +  "] \n\n" + " Using Report Outlay  [" + gdes + "]" );
+   }
+   else if (action == "del") {
+    resp = confirm("Please Confirm DELETION Of Report Title \n[" + lform.repheader.value );
+   }
+   else {
+    resp =true;
+   }
+
+   if (resp) {
+    target = "reps/report_specify.php";
+    
+    //alert("About to call ...");
+    
+    lform.datetypedesc.value = datedesc;
+    lform.valtypedesc.value  = valdesc;
+    postrep1(lform,target,olay,action,rgrp,subg,rep);    
+   }
+  }
+ } 
+
+ /* ..... Start: VF-006_reports0..... */
+ function proc_replinks(lform,type,repid) { 
+  //NB: type:- 0 -> print report (repid), 1-> Upload Rep Spec, 2->Upload Rep Outlay
+  okval  = true;   
+   
+  rgrp    = lform.dd_repgroup[lform.dd_repgroup.selectedIndex].value; 
+  subg    = lform.dd_subgroup[lform.dd_subgroup.selectedIndex].value; 
+  rep     = lform.dd_report[lform.dd_report.selectedIndex].value;   
+  // 
+  olay    = "";
+  if (lform.dd_outlay) {
+   olay = lform.dd_outlay[lform.dd_outlay.selectedIndex].value; 
+  } 
+   
+  if ((type == 1) || (type == 2)) {
+   if (rgrp == "NONE") {
+    alert("First Indicate The Report Group ...");
+    lform.dd_repgroup.focus();
+    okval = false;
+   }
+   else if (subg == "NONE") {
+    alert("First Indicate The Report Sub-Group ...");
+    lform.dd_subgroup.focus();
+    okval = false;
+   }
+   else if ((rep == "NONE") && (type == 2)) {
+    alert("A Report Specification Must First Be Selected. ");
+    lform.dd_report.focus();
+    okval = false;
+   }
+  } 
+    
+  if (okval) { 
+   if (type == 2) objid = olay
+   else objid = rep
+   
+   callnewwin2('reps/report_upload.php',type,'repuploadw2','get',rgrp,subg,objid,608,400);
+  } 
+    
+ }
+       
+ /* ..... Start: VF-007_reports0..... */
+ function proc_repupload(lform,actn) { 
+  var checkok = true;
+   
+  repu               = lform.dd_reputype[lform.dd_reputype.selectedIndex].value;  
+  grp                = lform.dd_repgroup[lform.dd_repgroup.selectedIndex].value;  
+  sub                = lform.dd_subgroup[lform.dd_subgroup.selectedIndex].value; 
+      
+  curcode            = lform.doccode.value;
+  lform.dobjdes.value  = uppercase(lform.dobjdes.value);
+    
+  //Checks
+  if (actn == "clear") {
+   lform.dd_curlist.selectedIndex = 0;
+   lform.dobjdes.value   = "";
+   lform.filefpath.value = "";
+   lform.doccode.value   = "";
+   checkok = false;
+  }
+   
+  if (actn == "grab") {
+   if (lform.dobjdes.value == "") {
+    alert("Please Enter Default Report Header For The Object ...");
+    lform.dobjdes.focus();
+    checkok = false;   
+   }
+   else if (repu == "NONE") {
+    alert("Please Select The Upload Type ...");
+    lform.dd_reputype.focus();
+    checkok = false;   
+   }
+   else if (grp == "NONE") {
+    alert("Please Select The Report Group ...");
+    lform.dd_repgroup.focus();
+    checkok = false;   
+   }
+   else if (sub == "NONE") {
+    alert("Please Select The Report SUB-Group ...");
+    lform.dd_subgroup.focus();
+    checkok = false;   
+   }
+   else if (lform.doclocate.value == "") {
+    alert("Please Specify Document To Upload ...");
+    lform.doclocate.focus();
+    checkok = false;   
+   }   
+  }
+  else if (actn == "del") {
+   if (lform.doccode.value == "") {
+    alert("Invalid Request At This Point...\n No Report Object Identified For Deletion");
+    lform.doclocate.focus();
+    checkok = false; 
+   }
+  } 
+   
+  if (checkok == true) { 
+   gdes = lform.dd_reputype[lform.dd_reputype.selectedIndex].text;
+
+   if (actn == "grab" ){
+    resp = confirm("Please Confirm \n[" + gdes +  "] Upload \n" + " For [" + lform.dobjdes.value + "]" );
+   }
+   else if (actn == "del") {
+    resp = confirm("Please Confirm DELETION Of \n[" + gdes +  "] For Item \n" + lform.dobjdes.value);
+   }
+   else {
+    resp =true;
+   }
+    
+   if (resp) {
+    lform.operation.value = actn;
+    lform.filefpath.value = lform.doclocate.value;
+     
+    postnewwin2(lform,'reps/report_upload.php',repu,actn,grp,sub,curcode);
+   }     
+  } 
+ } 
+  
+
+ /* ..... Start: VF-008_reports0..... */
+ function disp_report(lform,specid,olayid,orderby,restrict,opt) { 
+  var checkok = true;
+             
+  //Checks 
+  if ((specid == "") || (specid == "NONE") || (olayid == "") || (specid == "NONE")) { 
+   alert(" Report Specification/Outlay Details Not Known ...");
+   lform.dobjdes.focus();
+   checkok = false;   
+  } 
+
+  //Init
+  sdate = "";
+  edate = "";
+  svalue= "";
+  evalue= "";
+  gdate = "";
+  if (lform.sdate) {
+   sdate = lform.sdate.value;
+  }
+  if (lform.edate) {
+   edate = lform.edate.value;
+  }
+  if (lform.yr_sdate) {
+   sdate = lform.yr_sdate.value;
+  }
+  if (lform.yr_edate) {
+   edate = lform.yr_edate.value;
+  }
+  if (lform.gdate) {
+   gdate = lform.gdate.value;
+  }
+
+  ////Multiple Select Var
+  mult_sel_var = "";
+  if (lform.elements['mult_sel_var[]']) {    
+   optlen = lform.elements['mult_sel_var[]'].options.length;
+   //
+   t=0;
+   for(i=0;i<optlen;i++){
+    if (lform.elements['mult_sel_var[]'].options[i].selected) {
+     if (t>0) mult_sel_var = mult_sel_var + ",'" +  lform.elements['mult_sel_var[]'].options[i].value + "'";
+     else mult_sel_var = "'" +  lform.elements['mult_sel_var[]'].options[i].value + "'";
+     t++;   
+    }
+   }
+  } 
+  
+  mult_sel_var2 = "";
+  if (lform.elements['mult_sel_var2[]']) {    
+   optlen = lform.elements['mult_sel_var2[]'].options.length;
+   //
+   t=0;
+   for(i=0;i<optlen;i++){
+    if (lform.elements['mult_sel_var2[]'].options[i].selected) {
+     if (t>0) mult_sel_var2 = mult_sel_var2 + ",'" +  lform.elements['mult_sel_var2[]'].options[i].value + "'";
+     else mult_sel_var2 = "'" +  lform.elements['mult_sel_var2[]'].options[i].value + "'";
+     t++;   
+    }
+   }
+  } 
+  ////
+  
+  if (lform.svalue) {
+   svalue = lform.svalue.value; 
+  }  
+  if (lform.evalue) {
+   evalue = lform.evalue.value; 
+  }
+    
+  iselect = lform.iselected.value;
+  
+  // 
+  repord = "";  
+  if (lform.dd_reporder) {
+   repord= lform.dd_reporder.value;
+  }
+  if (repord == "") {
+   repord = orderby;
+  } 
+  
+  // 
+  sfilter1 = "";  
+  sfilter2 = ""; 
+  sfilter3 = "";  
+  sfilter4 = "";  
+  sfilter5 = "";  
+  sfilter6 = "";   
+  sfilter7 = "";  
+  sfilter8 = ""; 
+  //
+  sfilter9 = "";  
+  sfilter10 = "";   
+  sfilter11 = "";  
+  sfilter12 = ""; 
+  sfilter13 = ""; 
+  //
+  if (lform.dd_sfilter1) {
+   sfilter1= lform.dd_sfilter1.value;
+  }
+  if (lform.dd_sfilter2) {
+   sfilter2= lform.dd_sfilter2.value;
+  }
+  if (lform.dd_sfilter3) {
+   sfilter3= lform.dd_sfilter3.value;
+  } 
+  if (lform.dd_sfilter4) {
+   sfilter4= lform.dd_sfilter4.value;
+  }   
+  if (lform.dd_sfilter5) {
+   sfilter5= lform.dd_sfilter5.value;
+  }  
+  if (lform.dd_sfilter6) {
+   sfilter6= lform.dd_sfilter6.value;
+  }  
+  if (lform.dd_sfilter7) {
+   sfilter7= lform.dd_sfilter7.value;
+  } 
+  if (lform.dd_sfilter8) {
+   sfilter8= lform.dd_sfilter8.value;
+  }  
+   
+ ////
+  if (lform.dd_sfilter9) {
+   sfilter9= lform.dd_sfilter9.value;
+  }  
+  if (lform.dd_sfilter10) {
+   sfilter10= lform.dd_sfilter10.value;
+  }  
+  if (lform.dd_sfilter11) {
+   sfilter11= lform.dd_sfilter11.value;
+  }
+  if (lform.dd_sfilter12) {
+   sfilter12= lform.dd_sfilter12.value;
+  }  
+  if (lform.dd_sfilter13) {
+   sfilter13= lform.dd_sfilter13.value;
+  }  
+  //// 
+  
+  // 
+  rest = "";  
+  if (lform.dd_restrict) {
+   rest= lform.dd_restrict.value;
+  }
+  if (rest == "") {
+   rest = restrict;
+  } 
+
+  ////
+  polnum = "";  
+  if (lform.polnum) {
+   polnum= lform.polnum.value;
+  }
+
+  agency = "";  
+  if (lform.dd_agency) {
+   agency= lform.dd_agency.value;
+  }
+  ////
+ 
+  // 
+  destine = "";  
+  if (lform.dd_destine) {
+   destine= lform.dd_destine.value;
+  }
+
+  logstaff = "";
+  if (lform.logstaff) logstaff = trimall(lform.logstaff.value);
+  
+  //Validate
+  repemail = lform.email.value;
+  if ((destine == "E") && (repemail == "")) { 
+   alert(" Please Enter The Email Address ...");
+   lform.email.focus();
+   checkok = false;   
+  } 
+   
+  if (checkok == true) { 
+   repdet = specid + "," + olayid   + "," + sdate    + "," + edate;
+   repdet = repdet + "," + svalue   + "," + evalue   + "," + rest + "," + repord + "," + destine + "," + repemail;
+   repdet = repdet + "," + sfilter1 + "," + sfilter2 + "," + sfilter3 + "," + polnum + "," + agency + "," + sfilter4 + "," + sfilter5 + "," + sfilter6;
+   repdet = repdet + "," + sfilter7 + "," + logstaff + "," + gdate + "," + sfilter8 + "," + sfilter9 + "," + sfilter10 + "," + sfilter11 + "," + sfilter12 + "," + sfilter13;  
+  
+   //
+   oper  = '';
+   targ  = 'reps/report_container1.php';
+   wname = 'repdisplay1';
+    
+   if (opt == 1) {
+    targ  = 'reps/report_container1.php';
+    wname = 'repdisplay1';
+   }
+   
+   callrep1(targ,oper,wname,'disp',repdet,iselect,mult_sel_var,1000,650,0,0,mult_sel_var2); 
+  } 
+ } 
+  
+
+ /* ..... Start: VF-009_reports0..... */
+ function proc_repmap(lform,repcode,action) { 
+  //
+  okval  = true;   
+   
+  var rcode   = lform.dd_replist[lform.dd_replist.selectedIndex].value; 
+  if (repcode != '') {
+   rcode = repcode;
+  } 
+  var spec    = lform.dd_speclist[lform.dd_speclist.selectedIndex].value; 
+  var outl    = lform.dd_laylist[lform.dd_laylist.selectedIndex].value; 
+   
+  switch (action){
+   case 'update':
+    if ((rcode == 'NONE') || (spec == 'NONE') || (outl == 'NONE')){
+     alert("Please Specify All Three Parameters:- \nReport Name, Spec Name And Outlay Name");
+     lform.dd_replist.focus();
+     okval  = false;
+	 return;	
+    }
+    break;
+   case 'del':
+    conf = confirm("Please Confirm That You Wish To Delete This Mapping Record");
+    if (!conf){
+     okval  = false;
+	 return;	
+    }
+    break;
+   case 'clear':
+    //lform.dd_replist[lform.dd_replist.selectedIndex].value = "NONE"; 
+    lform.dd_replist.value = "NONE";     
+    lform.dd_speclist.value = "NONE"; 
+    lform.dd_laylist.value = "NONE"; 
+	return;	    
+    break;    
+   default:	
+  }
+
+  if (okval){
+   postnewwin2(lform,'reps/report_map.php',rcode,action,'','','');   
+  }  
+  
+ }
+  
+  
+  /* ..... Start: VF-010_reports0..... */
+ function disp_report_direct(lform,specid,olayid,repord,rest,sdate,edate,svalue,evalue,iselect,sfilter1,sfilter2,sfilter3,destine,polnum,agency,repemail,opt) { 
+  var checkok = true;
+       
+  //Checks 
+  if ((specid == "") || (specid == "NONE") || (olayid == "") || (olayid == "NONE")) { 
+   alert(" Report Specification/Outlay Details Not Known ...");   
+   checkok = false;   
+  } 
+
+  //Init
+  if (lform.sdate) {
+   sdate = lform.sdate.value;
+  }
+  if (lform.edate) {
+   edate = lform.edate.value;
+  }
+  if (lform.svalue) {
+   svalue= lform.svalue.value;
+  }
+  if (lform.evalue) {
+   evalue= lform.evalue.value;
+  }
+  if (lform.iselected) {
+   iselect = lform.iselected.value;
+  }
+
+  // 
+  if (lform.dd_reporder) {
+   repord= lform.dd_reporder.value;
+  } 
+
+  // 
+  if (lform.dd_sfilter1) {
+   sfilter1= lform.dd_sfilter1.value;
+  }
+  if (lform.dd_sfilter2) {
+   sfilter2= lform.dd_sfilter2.value;
+  }
+  if (lform.dd_sfilter3) {
+   sfilter3= lform.dd_sfilter3.value;
+  }   
+  //
+  if (lform.dd_restrict) {
+   rest= lform.dd_restrict.value;
+  }
+  //  
+  if (lform.dd_destine) {
+   destine= lform.dd_destine.value;
+  }
+  if (lform.polnum) {
+   polnum= lform.polnum.value;
+  }
+  if (lform.dd_agency) {
+   agency= lform.dd_agency.value;
+  }
+  //
+  if (lform.dd_destine) {
+   repemail = lform.email.value;
+  }
+
+  sfilter4 = "";  
+  sfilter5 = ""; 
+  if (lform.dd_sfilter4) {
+   sfilter4= lform.dd_sfilter4.value;
+  }   
+  if (lform.dd_sfilter5) {
+   sfilter5= lform.dd_sfilter5.value;
+  }     
+
+
+  logstaff = "";
+  if (lform.logstaff) logstaff = trimall(lform.logstaff.value);
+  
+  gdate = "";
+  if (lform.gdate) {
+   gdate = lform.gdate.value;
+  }
+  //alert("logstaff = " + logstaff);
+
+  ////Multiple Select Var
+  mult_sel_var = "";
+  if (lform.elements['mult_sel_var[]']) {    
+   optlen = lform.elements['mult_sel_var[]'].options.length;
+   //
+   t=0;
+   for(i=0;i<optlen;i++){
+    if (lform.elements['mult_sel_var[]'].options[i].selected) {
+     if (t>0) mult_sel_var = mult_sel_var + ",'" +  lform.elements['mult_sel_var[]'].options[i].value + "'";
+     else mult_sel_var = "'" +  lform.elements['mult_sel_var[]'].options[i].value + "'";
+     t++;   
+    }
+   }
+  } 
+  ////
+
+  //alert ("destine =" + destine + ", repmail = " + repemail);
+  
+  if ((destine == "E") && (repemail == "")) { 
+   alert(" Please Specify  The Email Address ...");
+   //lform.email.focus();
+   checkok = false;   
+  } 
+   
+  if (checkok == true) { 
+   repdet = specid + "," + olayid   + "," + sdate    + "," + edate;
+   repdet = repdet + "," + svalue   + "," + evalue   + "," + rest + "," + repord + "," + destine + "," + repemail;
+   repdet = repdet + "," + sfilter1 + "," + sfilter2 + "," + sfilter3 + "," + polnum + "," + agency + "," + sfilter4 + "," + sfilter5;
+   repdet = repdet + "," + logstaff + "," + ""       + "," + logstaff  + "," + gdate; 
+   //
+   oper  = '';
+   targ  = 'reps/report_container1.php';
+   wname = 'repdisplay1';
+    
+   if (opt == 1) {
+    targ  = 'reps/report_container1.php';
+    wname = 'repdisplay1';
+   }
+   
+   callrep1(targ,oper,wname,'disp',repdet,iselect,mult_sel_var,1000,650,0,0); 
+  } 
+ }
+ 
+ 
+ 
+  /*This procedure handles the Report Content Template for the 
+  * Claims Acknowledgment Letter
+  */  
+  /* ..... Start: VF-011_reports0..... */
+ function proc_replinks_template(lform,type,repid) { 
+  okval   = true;   
+  rgrp    = lform.dd_repgroup[lform.dd_repgroup.selectedIndex].value; 
+  subg    = lform.dd_subgroup[lform.dd_subgroup.selectedIndex].value; 
+  rep     = lform.dd_report[lform.dd_report.selectedIndex].value; 
+  filter5 = lform.dd_sfilter5[lform.dd_sfilter5.selectedIndex].value;
+  // 
+  olay    = "";
+  if (lform.dd_outlay) {
+   olay = lform.dd_outlay[lform.dd_outlay.selectedIndex].value; 
+  } 
+   
+  if ((type == 1) || (type == 2)) {
+   if (rgrp == "NONE") {
+    alert("First Indicate The Report Group ...");
+    lform.dd_repgroup.focus();
+    okval = false;
+   }
+   else if (subg == "NONE") {
+    alert("First Indicate The Report Sub-Group ...");
+    lform.dd_subgroup.focus();
+    okval = false;
+   }
+   else if ((rep == "NONE") && (type == 2)) {
+    alert("A Report Specification Must First Be Selected. ");
+    lform.dd_report.focus();
+    okval = false;
+   }
+  } 
+    
+  if (okval) { 
+   if (type == 2) objid = olay
+   else objid = rep
+   
+   if (type == 3)
+    subg = filter5;
+   
+   callnewwin2('reps/reps_content_template.php',type,'template_interface','get',rgrp,subg,objid,780,620);
+  } 
+    
+ }   
+ 
+  /* ..... Start: VF-012_reports0..... */
+ function upd_replinks_template(lform,actn){
+ 
+  var checkok = true; 
+  dtype = '';
+  dcode = lform.dd_templates[lform.dd_templates.selectedIndex].value;
+  if (dcode == "NONE") dcode = "";
+  
+  polcls = lform.dd_polclass[lform.dd_polclass.selectedIndex].value;
+  if (polcls == 'NONE') polcls = '';
+  if (actn == "clear") {
+   lform.dd_templates.selectedIndex  = 0;
+   lform.dd_polclass.selectedIndex = 0;
+  }
+  else if (actn == "grab") {
+    if (lform.itemcode1.value == "") {
+     alert("Please Enter Report ID ...");
+     lform.itemcode1.focus();
+     checkok = false;       
+   }
+   else if (lform.docdesc.value == "") {
+    alert("Please Enter Template Description ...");
+    lform.docdesc.focus();
+    checkok = false;       
+   }
+   
+  }
+  else if (actn == "del") {
+   if (dcode == "NONE") {
+    alert("Please Select Template To Be Deleted");
+    lform.dd_endors.focus();
+    checkok = false; 
+   }       
+  }     
+
+       
+  if (checkok) {  
+
+   if (actn == "grab") {
+    resp = confirm("Please Confirm Template Content Update");
+   }
+   else if (actn == "del") {          
+    resp = confirm("Please Confirm DELETION of Template");     
+   }   
+   else {
+    resp = true;
+   }
+
+   if (resp) {
+       
+    ccls  = "";
+    dgrp  = '';              
+   
+    lform.docdesc.value = uppercase(lform.docdesc.value);
+    postnewwin2(lform,'reps/reps_content_template.php',dgrp,actn,ccls,dtype,dcode);
+   }     
+  }
+ }     
+ /* .....End........ */  
+
+  /*..Copy To file.*/
+ function upd_replinks_copyto(lform){
+  var checkok = true; 
+  dtype = '';
+  actn = "copy"
+  if (checkok) {  
+   act = lform.act.value
+   if (actn == "copy") {
+    resp = confirm("Please Confirm Copy To Update");
+   }
+      
+   else {
+    resp = true;
+   }
+
+   if (resp) {
+       
+    ccls  = "";
+    dgrp  = '';              
+   
+    postnewwin2(lform,'utils/copyto_transfer.php','',actn,act,'','');
+   }     
+  }
+ }
+ /* .....End........ */  
+ 
+ /*........Start: Policy Class Claims ...*/
+ function polclass_claims(lform,action){
+  resp = '';
+  actn = action
+  if (actn == "update") {
+   resp = confirm("Please Confirm Policy Class Claims ");
+  }
+  if (resp) {
+   postnewwin2(lform,'utils/polclass_claims.php','','',actn,'','');
+  }     
+  
+ }
+ /* .....End........ */  
+ 
+   /* ..... Start: VF-010_reports0..... */
+ function disp_report2(lform,specid,olayid,orderby,restrict,opt,rpolnum,fields,extra,winname) { 
+  //alert("order = "+orderby+"restrict = "+restrict+" fields = "+fields);  
+  var checkok = true;
+       
+  //Checks 
+  if ((specid == "") || (specid == "NONE") || (olayid == "") || (olayid == "NONE")) { 
+   alert(" Report Specification/Outlay Details Not Known ...");
+   lform.dobjdes.focus();
+   checkok = false;   
+  } 
+  //if (rpolnum) { confirm("View details of Policy [" +rpolnum+ "]"); }
+
+  //Init
+  sdate = "";
+  edate = "";
+  svalue= "";
+  evalue= "";
+  gdate = "";
+  if (lform.sdate) {
+   sdate = lform.sdate.value;
+  }
+  if (lform.edate) {
+   edate = lform.edate.value;
+  }
+  if (lform.gdate) {
+   gdate = lform.gdate.value;
+  }
+
+  if (lform.svalue) {
+   svalue= lform.svalue.value;
+  }
+  if (lform.evalue) {
+   evalue= lform.evalue.value;
+  }
+
+  iselect = "";
+  if (lform.iselected) {
+   iselect = lform.iselected.value;
+  }
+
+  // 
+  repord = "";  
+  if (lform.dd_reporder) {
+   repord= lform.dd_reporder.value;
+  }
+  if (repord == "") {
+   repord = orderby;
+  } 
+
+  //debug alert("4. Report Function ...");  
+  // 
+  sfilter1 = "";  
+  sfilter2 = ""; 
+  sfilter3 = "";
+  sfilter4 = "";  
+  sfilter5 = "";  
+  sfilter6 = "";  
+  sfilter7 = "";    
+  sfilter8 = ""; 
+  if (lform.dd_sfilter1) {
+   sfilter1= lform.dd_sfilter1.value;
+  }
+  if (lform.dd_sfilter2) {
+   sfilter2= lform.dd_sfilter2.value;
+  }
+  if (lform.dd_sfilter3) {
+   sfilter3= lform.dd_sfilter3.value;
+  } 
+  if (lform.dd_sfilter4) {
+   sfilter4= lform.dd_sfilter4.value;
+  }     
+  if (lform.dd_sfilter5) {
+   sfilter5= lform.dd_sfilter5.value;
+  } 
+  if (lform.dd_sfilter6) {
+   sfilter6= lform.dd_sfilter6.value;
+  }     
+  if (lform.dd_sfilter7) {
+   sfilter7= lform.dd_sfilter7.value;
+  }  
+  if (lform.dd_sfilter8) {
+   sfilter8= lform.dd_sfilter8.value;
+  } 
+  //alert('sfilter1 = '+sfilter1+' sfilter2'+sfilter2+' sfilter3 = '+sfilter3+' 4= '+sfilter4+' 5='+sfilter5+' 6 = '+sfilter6+' 7 ='+sfilter7+' 8='+sfilter8);
+  
+  //
+  rest = "";  
+  if (lform.dd_restrict) {
+   rest= lform.dd_restrict.value;
+  }
+  if (rest == "") {
+   rest = restrict;
+  } 
+
+  // 
+  destine = "";  
+  if (lform.dd_destine) {
+   destine= lform.dd_destine.value;
+  }
+
+  ////
+  polnum = "";  
+  if (lform.polnum) {
+   polnum= lform.polnum.value;
+  }
+
+  agency = "";  
+  if (lform.dd_agency) {
+   agency= lform.dd_agency.value;
+  }
+  agent = "";  
+  if (lform.dd_agent) {
+   agent= lform.dd_agent.value;
+  }
+  
+  if(fields !=''){
+    iselect = fields;
+  }
+  if(extra !=''){
+    sfilter1 = extra;
+  }
+  
+  
+  logstaff = "";
+  if (lform.logstaff) logstaff = lform.logstaff.value;
+  //alert('logstaff = '+logstaff);
+  ////
+ 
+  //Validate
+  repemail = "";
+  if (lform.dd_destine) {
+   repemail = lform.email.value;
+  }
+  
+// debug alert ("destine =" + destine + ", repmail = " + repemail);
+
+  if ((destine == "E") && (repemail == "")) { 
+   alert(" Please Enter The Email Address ...");
+   lform.email.focus();
+   checkok = false;   
+  } 
+  
+  if (checkok == true) { 
+   
+   repdet = specid + "," + olayid   + "," + sdate    + "," + edate;
+   repdet = repdet + "," + svalue   + "," + evalue   + "," + rest + "," + repord + "," + destine + "," + repemail;
+   repdet = repdet + "," + sfilter1 + "," + sfilter2 + "," + sfilter3 + "," + polnum + "," + agency + "," + sfilter4 + "," + sfilter5 + "," + sfilter6;
+   repdet = repdet + "," + sfilter7 + "," + logstaff + "," + gdate + "," + agent; 
+  
+   //
+   oper  = '';
+   targ  = 'reps/report_container1.php';
+   if (winname == ""){
+    wname = 'repdisplay2';
+   }
+   else wname = winname;
+    
+   if (opt == 1) {
+    targ  = 'reps/report_container1.php';
+    //wname = 'repdisplay2';
+   }
+   //alert("iselect = "+iselect+ rest + "," + repord + "," + destine );
+   callrep1(targ,oper,wname,'disp',repdet,iselect,'',1000,650,0,0); 
+  } 
+ } 
+ /*****End******/   
+//-->

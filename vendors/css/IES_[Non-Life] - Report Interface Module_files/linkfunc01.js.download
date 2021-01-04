@@ -1,0 +1,426 @@
+<!--
+
+ /* ..... Start: LF01-000..... */
+ function callfirstwin(target,winname,xwidth,xheight) {  
+
+  var curloc = iesurl+ target;
+
+  if (xwidth <= 0) {
+   xwidth = 800;
+  }
+  if (xheight <= 0) {
+   xheight = 550;
+  }
+   
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,left=2,top=2';
+  newwin = window.open(curloc,winname,nwpara);
+  //newwin = window.open(curloc,winname);
+
+  childwins[childwins.length]  = newwin;
+  newwin.focus();
+
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-001..... */
+ function callmain(xform,target,operation,action) {  
+
+  /* Call main with targ and op*/
+
+  //my desk call to convert invoices
+  resp = true;
+  if (action == 'convert_all') {
+   resp = confirm("You have requested to convert all Listed invoices into Debit/credit Transactions. Please Confirm this"); 
+  }
+  if (resp) {
+   //xform.action=iesurl + "iesmain.php?PHPSESSID=session_id()&targ=" + target + "&op=" + operation + "&act=" + action;
+   xform.action=iesurl + "iesmain.php?targ=" + target + "&op=" + operation + "&act=" + action;
+   xform.submit();
+  }
+
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-002..... */
+ function callnewwin1(target,operation,winname,action,citem,xwidth,xheight) {  
+  
+  //var curloc = iesurl+ target + '?PHPSESSID=session_id()' + "&op=" + operation + "&act=" + action + "&item=" + citem;
+    var curloc = iesurl+ target + "?op=" + operation + "&act=" + action + "&item=" + citem;
+
+  if (xwidth <= 0) {
+   xwidth = 590;
+  }
+  if (xheight <= 0) {
+   xheight = 290;
+  }
+   
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,left=100,top=50';
+  newwin = window.open(curloc,winname,nwpara);
+  //newwin = window.open(curloc,winname);
+
+  childwins[childwins.length]  = newwin;
+  newwin.focus();
+    //alert('here! is the newwin = '+ newwin);
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-002b..... */
+ function callnewwin5(target,operation,winname,action,citem,xwidth,xheight) { 
+  //this routine provides an alternative to callnewwin1() routine because
+  //returning the reference to the new window without handling it proves buggy for 
+  //older callers 
+  
+  //var curloc = iesurl+ target + '?PHPSESSID=session_id()' + "&op=" + operation + "&act=" + action + "&item=" + citem;
+  var curloc = iesurl+ target + "?op=" + operation + "&act=" + action + "&item=" + citem;
+
+  if (xwidth <= 0) {
+   xwidth = 590;
+  }
+  if (xheight <= 0) {
+   xheight = 290;
+  }
+  
+  
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,left=100,top=50'; 
+  newwin = window.open(curloc,winname,nwpara);
+  //newwin = window.open(curloc,winname);
+  //alert('newwin in the function = '+ newwin);
+  
+  //childwins[childwins.length]  = newwin;
+  newwin.focus();
+  //alert('2. newwin in the function = '+ newwin);
+  return newwin;
+
+ }
+ /*..... End .....*/
+ /* ..... Start: LF01-003..... */
+ function postnewwin1(lform,target,operation,winname,action,citem) {  
+
+  
+  //var curloc = iesurl+ target + '?PHPSESSID=session_id()' + "&op=" + operation + "&act=" + action + "&item=" + citem;
+    var curloc = iesurl+ target + "?op=" + operation + "&act=" + action + "&item=" + citem;
+
+
+  lform.action = curloc;
+  lform.submit();   
+
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-004..... */
+ function iesclosechilds() {  
+  var cwin;
+
+  for (var xi in childwins) {  
+   cwin = childwins[xi];
+   if (cwin) {
+    cwin.close();
+   }
+   
+  }
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-005..... */
+ function callmainb(target,operation,action) {  
+
+  /* Call main with targ and op from MENUS*/
+  //var curloc = "iesmain.php?PHPSESSID=session_id()&targ=" + target + "&op=" + operation + "&act=" + action;
+    var curloc = "iesmain.php?targ=" + target + "&op=" + operation + "&act=" + action;
+  newwin = window.open(curloc,'_self');
+
+ }
+
+ /* ..... Start: LF01-006..... */
+ function callnewsite(sitename) {  
+
+  newwin = window.open(sitename);
+
+  childwins[childwins.length]  = newwin;
+  newwin.focus();
+
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-007..... */
+ function callmainc(target,operation,action,citem,reqst) {  
+
+  /* Call main with parameters*/  
+  //xform.action=iesurl + "iesmain.php?PHPSESSID=session_id()&targ=" + target + "&op=" +   //operation + "&act=" + action + "&curitem=" + citem;
+ // xform.submit();
+
+  //var curloc = "iesmain.php?PHPSESSID=session_id()&targ=" + target + "&op=" + operation +   "&act=" + action + "&curitem=" + citem + "&reqst=" + reqst;
+ var curloc = "iesmain.php?targ=" + target + "&op=" + operation +   "&act=" + action + "&curitem=" + citem + "&reqst=" + reqst;
+  newwin = window.open(curloc,'_self');
+
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-008..... */
+ function callmaind(xform,target,operation,action,citem,reqst) {  
+
+  /* Call main with targ and op*/
+  //xform.action=iesurl + "iesmain.php?PHPSESSID=session_id()&targ=" + target + "&op=" + operation + "&act=" + action + "&curitem=" + citem + "&reqst=" + reqst;
+  xform.action=iesurl + "iesmain.php?targ=" + target + "&op=" + operation + "&act=" + action + "&curitem=" + citem + "&reqst=" + reqst;
+  xform.submit();
+
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-009..... */
+ function callnewwin2(target,operation,winname,action,citem,citem2,citem3,xwidth,xheight) {  
+
+  //var curloc = iesurl+ target + '?PHPSESSID=session_id()' + "&op=" + operation + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3; 
+    var curloc = iesurl+ target + "?op=" + operation + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3; 
+
+  if (xwidth <= 0) {
+   xwidth = 590;     
+  }
+  if (xheight <= 0) {
+   xheight = 290; 
+  }
+
+  //
+  lval = 20;
+  tval = 40;   
+   
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,left=' + lval + ',top=' + tval;
+  newwin = window.open(curloc,winname,nwpara);
+  //newwin = window.open(curloc,winname);
+  
+  newwin.focus(); 
+
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-010..... */
+ function postnewwin2(xform,target,operation,action,citem,citem2,citem3) {  
+
+  /* Call */
+  //xform.action=iesurl + target + "?PHPSESSID=session_id()&targ=" + target + "&op=" + operation + "&act=" + action + "&curitem=" + citem + "&curitem2=" + citem2 + "&curitem3=" + citem3;
+  var curloc  = iesurl + target + "?targ=" + target + "&op=" + operation + "&act=" + action + "&curitem=" + citem + "&curitem2=" + citem2 + "&curitem3=" + citem3;
+  xform.action= curloc;
+  xform.submit();
+
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-011..... */
+ function callnewwin3(targ,oper,wname,action,citem,citem2,citem3,xwidth,xheight,lof,tof) {
+
+  //var curloc = iesurl+ targ + '?PHPSESSID=session_id()' + "&op=" + oper + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3;
+    var curloc = iesurl+ targ + "?op=" + oper + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3;
+
+  if (xwidth <= 0) {
+   xwidth = 590;
+  }
+  if (xheight <= 0) {
+   xheight = 290;
+  }
+
+  //
+  if ((lof >= 10) || (lof == 0)) {
+   lval = 20 + lof;
+  }
+  else {
+   lval = lof;
+  }
+  if ((tof >= 20) || (tof == 0)) { 
+   tval = 40 + tof;
+  }
+  else {
+   tval = tof;
+  }
+
+   
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,left=' + lval + ',top=' + tval;
+  newwin = window.open(curloc,wname,nwpara);
+  //newwin = window.open(curloc,wname);
+
+  childwins[childwins.length]  = newwin;
+
+  newwin.focus(); 
+
+ }
+ /*..... End .....*/
+
+
+/* ..... Start: LF01-011..... */
+ function callnewwin4(targ,oper,wname,action,citem,citem2,citem3,xwidth,xheight,lof,tof) {
+
+  //var curloc = iesurl+ targ + '?PHPSESSID=session_id()' + "&op=" + oper + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3;
+    var curloc = iesurl+ targ + "?op=" + oper + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3;
+
+  if (xwidth <= 0) {
+   xwidth = 590;
+  }
+  if (xheight <= 0) {
+   xheight = 290;
+  }
+
+  //
+  if ((lof >= 10) || (lof == 0)) {
+   lval = 20 + lof;
+  }
+  else {
+   lval = lof;
+  }
+  if ((tof >= 20) || (tof == 0)) { 
+   tval = 40 + tof;
+  }
+  else {
+   tval = tof;
+  }
+
+   
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes, menubar=yes, left=' + lval + ',top=' + tval;
+  newwin = window.open(curloc,wname,nwpara);
+  //newwin = window.open(curloc,wname);
+
+  childwins[childwins.length]  = newwin;
+
+  newwin.focus(); 
+
+ }
+ /*..... End .....*/
+
+
+
+ /* ..... Start: LF01-012..... */
+ function callutilwin(target,winname,action,op,xwidth,xheight,lof,tof,citem,citem2,citem3) {  
+
+  //var curloc = iesurl + target + '?PHPSESSID=session_id()' + "&op=" + op + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3;;
+    var curloc = iesurl + target + "?op=" + op + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3;;
+
+  if (xwidth <= 0) {
+   xwidth = 590;
+  }
+  if (xheight <= 0) {
+   xheight = 290;
+  }
+
+  //
+  lval = 20 + lof;
+  tval = 40 + tof;
+   
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,left=' + lval + ',top=' + tval;
+  newwin = window.open(curloc,winname,nwpara);
+
+  childwins[childwins.length]  = newwin;
+  newwin.focus();
+
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF01-013..... */
+ function proc_shownote(target,head,note,sign,action) {  
+  
+  callnewwin3('non-life/iestasks_disp_notes.php','','dispform1',action,head,note,sign,610,500,140,70);
+ }
+ /*..... End .....*/
+
+
+ /* ..... Start: LF01-014..... */
+ function callphputils(targ,oper,wname,action,citem) {
+
+  //var curloc = iesurl+ targ + '?PHPSESSID=session_id()' + "&op=" + oper + "&act=" + action + "&item=" + citem;
+    var curloc = iesurl+ targ + "?op=" + oper + "&act=" + action + "&item=" + citem;
+
+  xwidth  = 1;
+  xheight = 1;
+  tval    = 0;
+  lval    = 0; 
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,left=' + lval + ',top=' + tval;
+  newwin = window.open(curloc,wname,nwpara);
+
+  //newwin.focus(); 
+
+ }
+ /*..... End .....*/
+
+
+ /* ..... Start: LF01-014..... */
+ function call_polenq(target,operation,action,xwidth,xheight,lof,tof) {  
+
+  //var curloc = iesurl+ target;
+
+  if (xwidth <= 0) {
+   xwidth = 800;
+  }
+  if (xheight <= 0) {
+   xheight = 550;
+  }
+
+
+  //
+  if ((lof >= 10) || (lof == 0)) {
+   lval = 20 + lof;
+  }
+  else {
+   lval = lof;
+  }
+  if ((tof >= 20) || (tof == 0)) { 
+   tval = 40 + tof;
+  }
+  else {
+   tval = tof;
+  }
+
+  var curloc = iesurl + "iesmain.php?targ=" + target + "&op=" + operation + "&act=" + action;
+  var nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,left=' + lval + ',top=' + tval;
+  newwin = window.open(curloc,'pol_enq',nwpara);
+
+  newwin.focus();
+
+ }
+ /*..... End .....*/
+
+
+ /* ..... Start: LF01-015..... */
+ function call_clmenq(target,operation,action,xwidth,xheight,lof,tof) {  
+
+  //var curloc = iesurl+ target;
+
+  if (xwidth <= 0) {
+   xwidth = 800;
+  }
+  if (xheight <= 0) {
+   xheight = 550;
+  }
+
+
+  //
+  if ((lof >= 10) || (lof == 0)) {
+   lval = 20 + lof;
+  }
+  else {
+   lval = lof;
+  }
+  if ((tof >= 20) || (tof == 0)) { 
+   tval = 40 + tof;
+  }
+  else {
+   tval = tof;
+  }
+
+  var curloc = iesurl + "iesmain.php?targ=" + target + "&op=" + operation + "&act=" + action;
+  var nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,left=' + lval + ',top=' + tval;
+  newwin = window.open(curloc,'pol_enq',nwpara);
+
+  newwin.focus();
+
+ }
+ /*..... End .....*/
+ 
+ 
+ function call_clmenq1(target,operation,action,citem,reqst) {
+    
+  var curloc = "../iesmain.php?targ=" + target + "&op=" + operation +   "&act=" + action + "&curitem=" + citem + "&reqst=" + reqst;
+  
+  newwin = window.open(curloc,'pol_enq');
+
+  newwin.focus();
+
+ }
+
+//-->

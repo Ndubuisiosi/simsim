@@ -1,0 +1,27 @@
+<!--
+
+//var iesurl    = "http://" + cur_ipnum + "/iesgenbiz/";
+var iesurl    = "https://" + cur_ipnum + "/iesgenbiz/";
+//
+var iesssl    = "https://" + cur_ipnum + "/ssl/";
+
+
+//var iesurl = "http://www.iesonline.info/";
+//var iesssl = "https://www.iesonline.info/ssl/";
+
+//Child windows
+var childwins = new Array(); //Child windows;
+
+//IES AJAX DB function file
+var iesajax_dbf  = "dbscripts/ies_AJAX_dbfunc_01.php";
+
+
+//For Number to word Conversion
+var mNos= new Array();
+var AmtWrds;
+AmtWrds="";
+
+//
+var iesweldoc = "welcome.htm";
+var iesdefdoc = "default2.php";
+//-->

@@ -1,0 +1,1845 @@
+<!--
+ /* ..... Start: GF01-001..... */
+ function aboutus(loc){          
+  var curloc = iesurl + 'iesabout.htm#' + loc;
+  about1 = window.open(curloc,'aboutuswin','width=700,height=500,scrollbars=yes,left=0,top=0,menubar=yes,status=yes');
+  about1.focus();
+ }
+ /* .....End........ */
+
+ /* ..... Start: GF01-002..... */
+ function donothing(){
+  //Don Nothing
+  alert("Do Nothing...");
+ }
+ /* .....End........ */
+
+ /* ..... Start: GF01-003..... */
+ function lowercase(gstring) {
+  if ((typeof(gstring) === 'string') && (gstring != "")) tstring = gstring.toLowerCase();
+  else tstring = gstring;
+  return tstring;    
+ } 
+ /* .....End........ */
+
+ /* ..... Start: GF01-004..... */
+ function uppercase(gstring) {
+  if ((typeof(gstring) === 'string') && (gstring != ""))tstring = gstring.toUpperCase();
+  else tstring = gstring;
+  return tstring;    
+ } 
+ /* .....End........ */  
+
+ /* ..... Start: GF01-005..... */
+ function trimall(xstring) {
+  var newstr = "";
+
+   for (xj=0;xj < xstring.length;xj++) {
+    if ((xstring.substring(xj,xj+1) != ' ') && (xstring.substring(xj,xj+1) != '\n') && 
+        (xstring.substring(xj,xj+1) != '\r') && (xstring.substring(xj,xj+1) != '\t')) {
+
+     newstr = newstr + xstring.substring(xj,xj+1);
+    }
+   }   
+ 
+
+  return newstr;
+ }
+ /* .....End........ */
+
+ /* ..... Start: GF01-005B..... */
+ function trimsxter(xstring) {
+  var newstr = "";
+   
+  for (xj=0;xj < xstring.length;xj++) {
+   if ((xstring.substring(xj,xj+1) != '\n') && (xstring.substring(xj,xj+1) != '\r')) {
+    newstr = newstr + xstring.substring(xj,xj+1);
+   }
+  }       
+  return newstr;
+ }
+ /* .....End........ */
+
+ /* ..... Start: GF01-005C..... */
+ function trimcoma(xstring) {
+  var newstr = "";
+  //Ensure the Xstring Value is not Empty
+  if(xstring){
+      for (xj=0;xj < xstring.length;xj++) {
+       if (xstring.substring(xj,xj+1) != ',') {
+        newstr = newstr + xstring.substring(xj,xj+1);
+        //alert(" newstr " + newstr);
+       }
+      } 
+  } 
+      
+  return newstr;
+ }
+ /* .....End........ */
+
+
+ /* ..... Start: GF01-005D..... */
+ String.prototype.trim = function() {
+  tval =  this.replace(/^\s*|\s(?=\s)|\s*$/g, "");
+  return tval; 
+ }
+ /* .....End........ */
+
+ /* ..... Start: GF01-005E..... */
+ function lefttrim(sString) {	      
+  while ((sString.substring(0,1) == ' ') || (sString.substring(0,1) == '')){
+   sString = sString.substring(1, sString.length);
+  }
+  return sString;
+ }
+  
+ /* ..... Start: GF01-006..... */
+ function iniinherit(ugroup,chkinherit){  
+          
+  if (ugroup == "NONE") {
+   chkinherit.checked = true;
+   chkinherit.value = "ON";
+  }
+  else {
+   chkinherit.checked = false;
+   chkinherit.value = "OFF";
+  }   
+ } 
+ /* .....End........ */
+  
+ /* ..... Start: GF01-007..... */
+ function find_dd_index(ddobj,ivalue){  
+   
+  if (ddobj) {
+   var xindex = 0;      
+    
+   for (i=0; i<ddobj.length;i++){
+    if (ddobj[i].value == ivalue) {
+     xindex = i;
+     break;
+    }
+   }
+   return xindex;       
+  }
+  else {
+   return 0;
+  }
+ } 
+ /* .....End........ */
+
+
+ /* ..... Start: GF01-008..... */
+ function initcheckboxes(chkboxobj,chkboxval){
+
+  if ((chkboxval == "ON") || (chkboxval == "Y")) {
+   chkboxobj.checked = true;
+  }
+  else {
+   chkboxobj.checked = false;
+  }
+ }
+ /* .....End........ */
+
+ /* ..... Start: GF01-009..... */
+ function initcboxval(cboxobj,trueval,falseval){
+
+  trueval  = trimall(trueval);
+  falseval = trimall(falseval);
+   
+  if (cboxobj.checked) {
+   cboxobj.value = trueval;
+  }
+  else {
+   cboxobj.value = falseval;
+  }
+ }
+ /* .....End........ */
+
+ /* ..... Start: GF01-009B..... */
+ function initcboxval2(cboxobj,valobj,trueval,falseval){
+    
+  trueval  = trimall(trueval);
+  falseval = trimall(falseval);
+   
+  if (cboxobj.checked) {
+   valobj.value  = trueval;
+   cboxobj.value = trueval;
+  }
+  else {
+   valobj.value  = falseval;
+   cboxobj.value = falseval;
+  }
+ }
+ /* .....End........ */ 
+  
+ /* ..... Start: GF01-010..... */
+ function checkcbox(cboxobj,trueval,falseval){    
+      
+  if (trimall(cboxobj.value) == trimall(trueval)) {
+   cboxobj.checked = true;
+  }
+  else if (trimall(cboxobj.value) == trimall(falseval)) {
+   cboxobj.checked = false;
+  }      
+
+ }
+ /* .....End........ */     
+
+
+
+ /* ..... Start: GF01-011..... */
+ function cboxcheck1(cboxa,cboxb,cboxc,cboxd,cboxe,cboxf) {  
+  var checkok = true;
+
+  //
+  if ((cboxa.checked == false) || 
+      (cboxb.checked == false) || 
+      (cboxc.checked == false) ||
+      (cboxd.checked == false) || 
+      (cboxe.checked == false)){
+   cboxf.checked = false;
+   cboxf.value   = "OFF";
+  } 
+ }
+ /* .....End........ */ 
+
+ /* ..... Start: GF01-012..... */
+ function cboxcheck2(cboxa,cboxb,cboxc,cboxd,cboxe,cboxf) {  
+  var checkok = true;
+
+  //
+  if ((cboxf.checked == true) || 
+      (cboxb.checked == true) || 
+      (cboxc.checked == true) ||
+      (cboxd.checked == true) || 
+      (cboxe.checked == true)){
+   cboxa.checked = true;
+   cboxa.value   = "ON";
+  } 
+ }
+ /* .....End........ */ 
+
+ /* ..... Start: GF01-013..... */
+ function cboxcheck3(cboxa,cboxb,cboxc,cboxd,cboxe,cboxf,trueval) {  
+  var checkok = true;
+
+  //
+  if (cboxf.checked == true){ 
+      
+   cboxa.checked = true;
+   cboxa.value   = trueval;
+
+   cboxb.checked = true;
+   cboxb.value   = trueval;
+
+   cboxc.checked = true;
+   cboxc.value   = trueval;
+
+   cboxd.checked = true;
+   cboxd.value   = trueval;
+
+   cboxe.checked = true;
+   cboxe.value   = trueval;
+  } 
+ }
+ /* .....End........ */ 
+
+ /* ..... Start: GF01-014..... */
+ function clear_dd(ddobj){  
+   
+  if (ddobj) {       
+   for (i=ddobj.length-1;;i--){ 
+    if (ddobj.length >= 1) {
+     ddobj.remove(ddobj[i]);    
+    }
+    else {
+     break;
+    }
+   } 
+   ddobj.selectedIndex = 0;
+  }
+ } 
+ /* .....End........ */
+
+ /* ..... Start: GF01-015..... */
+ function padstring(xstring,vlen,pad) {
+  newstr = xstring;
+
+  if (pad == "") {
+   pad = "0";
+  } 
+  stlen = newstr.length ;
+
+  if ((stlen == "") || (stlen == 0)) {
+   stlen = 1;
+  }
+
+  if (vlen >= 1) {  
+   for (xj=0;xj < vlen;xj++) {
+    if (stlen <= xj) {
+     newstr = pad + newstr ;
+    }
+   }       
+  }  
+  return newstr;
+ }
+ /* .....End........ */
+
+ /* ..... Start: GF01-016..... */
+ function add_num_to_date(datestr,intdays,dayadjust){
+
+  //datestr format - YYYY-MM-DD
+  //indtdays is in days
+  //Returned date is adjusted by variable 'dayadjust'
+  //
+  if (datestr.length == 10) {
+   //alert("Add to date func received datestr/integer = " + datestr + " / " + intnum);
+
+   sdate = datestr.substring(0,4);
+   sdate = sdate + datestr.substring(5,7);
+   sdate = sdate + datestr.substring(8,10);   
+   
+   tdate=new Date(sdate.substring(0,4),
+                  sdate.substring(4,6)-1,
+                  sdate.substring(6,8));
+
+   rdays = (intdays - 0) + (dayadjust - 0);
+   rdate =  new Date(tdate.getTime() + rdays*24*60*60*1000);
+
+
+   yr = rdate.getFullYear(); 
+   mn = rdate.getMonth();
+   mn = mn - 0 + 1;
+   dy = rdate.getDate();
+   //alert("FullDate "+rdate+" and Day "+rdays); 
+
+   mn = trimall(mn + " ");
+   dy = trimall(dy + " ");
+    
+   rdate2 = yr + "-" + padstring(mn,2,'0') + "-" + padstring(dy,2,'0');   
+
+   return rdate2;
+  }
+ } 
+ /* .....End........ */
+  
+ /* ..... Start: GF01-017..... */
+ function emailCheck(emailStr) {
+      
+  //Trim emial string
+  emailStr = trimall(emailStr);
+
+  /* The following variable tells the rest of the function whether or not
+    to verify that the address ends in a two-letter country or well-known
+    TLD.  1 means check it, 0 means don't.  */
+  var checkTLD=1;
+
+  /* The following is the list of known TLDs that an e-mail address must end with. */
+  var knownDomsPat=/^(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum)$/;
+  /* The following pattern is used to check if the entered e-mail address
+     fits the user@domain format.  It also is used to separate the username
+     from the domain. */
+  var emailPat=/^(.+)@(.+)$/;
+  /* The following string represents the pattern for matching all special
+     characters.  We don't want to allow special characters in the address. 
+     These characters include ( ) < > @ , ; : \ " . [ ] */
+  var specialChars="\\(\\)><@,;:\\\\\\\"\\.\\[\\]";
+
+  /* The following string represents the range of characters allowed in a 
+     username or domainname.  It really states which chars aren't allowed.*/
+  var validChars="\[^\\s" + specialChars + "\]";
+
+  /* The following pattern applies if the "user" is a quoted string (in
+     which case, there are no rules about which characters are allowed
+     and which aren't; anything goes).  E.g. "jiminy cricket"@disney.com
+     is a legal e-mail address. */
+  var quotedUser="(\"[^\"]*\")";
+
+  /* The following pattern applies for domains that are IP addresses,
+     rather than symbolic names.  E.g. joe@[123.124.233.4] is a legal
+     e-mail address. NOTE: The square brackets are required. */
+  var ipDomainPat=/^\[(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\]$/;
+
+  /* The following string represents an atom (basically a series of non-special characters.) */
+  var atom=validChars + '+';
+     
+  /* The following string represents one word in the typical username.
+     For example, in john.doe@somewhere.com, john and doe are words.
+     Basically, a word is either an atom or quoted string. */
+  var word="(" + atom + "|" + quotedUser + ")";
+
+  // The following pattern describes the structure of the user
+  var userPat=new RegExp("^" + word + "(\\." + word + ")*$");
+      
+  /* The following pattern describes the structure of a normal symbolic
+     domain, as opposed to ipDomainPat, shown above. */
+  var domainPat=new RegExp("^" + atom + "(\\." + atom +")*$");
+
+  /* Finally, let's start trying to figure out if the supplied address is valid.
+     Begin with the coarse pattern to simply break up user@domain into 
+     different pieces that are easy to analyze. */
+  var matchArray=emailStr.match(emailPat);
+
+  if (matchArray==null) {
+         
+   /* Too many/few @'s or something; basically, this address doesn't
+   even fit the general mould of a valid e-mail address. */
+       
+   alert("Email address seems incorrect (check @ and .'s)");
+   return false;
+  }
+
+  var user=matchArray[1];
+  var domain=matchArray[2];
+       
+  // Start by checking that only basic ASCII characters are in the strings (0-127).
+  for (i=0; i<user.length; i++) {
+   if (user.charCodeAt(i)>127) {
+    alert("Ths username contains invalid characters.");
+    return false;
+   }
+  }
+             
+  for (i=0; i<domain.length; i++) {
+   if (domain.charCodeAt(i)>127) {
+    alert("Email last part-domain name contains invalid characters.");
+    return false;
+   }
+  }
+  // See if "user" is valid  
+  if (user.match(userPat)==null) {
+   // user is not valid
+   alert("Invalid username part on email");
+   return false;
+  }
+         
+  /* if the e-mail address is at an IP address (as opposed to a symbolic
+     host name) make sure the IP address is valid. */
+  var IPArray=domain.match(ipDomainPat);
+  if (IPArray!=null) {
+   // this is an IP address
+           
+   for (var i=1;i<=4;i++) {
+    if (IPArray[i]>255) {
+     alert("Destination IP address is invalid!");
+     return false;
+    }
+   }
+   return true;
+  }
+
+  // Domain is symbolic name.  Check if it's valid. 
+  var atomPat=new RegExp("^" + atom + "$");
+  var domArr=domain.split(".");
+  var len=domArr.length;
+  for (i=0;i<len;i++) {
+   if (domArr[i].search(atomPat)==-1) {
+    alert("Email last part/domain name is invalid.");
+    return false;
+   }
+  }
+
+  /* domain name seems valid, but now make sure that it ends in a
+     known top-level domain (like com, edu, gov) or a two-letter word,
+     representing country (uk, nl), and that there's a hostname preceding 
+     the domain or country. */
+  if ((checkTLD && domArr[domArr.length-1].length != 2) && (domArr[domArr.length-1].search(knownDomsPat)) == -1) {
+   alert("The address must end in a well-known domain <.com, .net, .ng, etc>");
+   return false;
+  }
+
+  // Make sure there's a host name preceding the domain.
+  if (len<2) {
+   alert("This address is missing a hostname-site  name");
+   return false;
+  }     
+  return true;
+ }
+ /* .....End........ */
+ 
+ 
+ /* ..... Start: GF01-018..... */
+ function grpitemscbox(lform,grpobj,itemsobj){
+  var itemlist;
+   
+  //alert("List Before = " + lform.iselected.value);
+  itemlist = lform.iselected.value;    
+  if (grpobj.checked == true) {
+   for (ix=0; ix<itemsobj.length;ix++){ 
+    itemsobj[ix].checked = true;
+    itemval = itemsobj[ix].value;
+    prepitemslist(lform,itemval,"A");
+   }
+  }  
+  else {
+   for (iy=0; iy<itemsobj.length;iy++){   
+    itemsobj[iy].checked = false;  
+    itemval = itemsobj[iy].value;
+    prepitemslist(lform,itemval,"R");
+   }
+  }
+  //      
+  //alert("List After = " + lform.iselected.value);
+ }
+ /* .....End........ */ 
+     
+ /* ..... Start: GF01-019..... */
+ function itemscbox(lform,grpobj,itemval,checkstate){
+  var olditemlist;
+   
+  olditemlist = lform.iselected.value;
+
+  if (checkstate == true) {   
+   prepitemslist(lform,itemval,'A');
+  }  
+  else {
+   prepitemslist(lform,itemval,'R'); 
+  }
+  //
+       
+  //alert("List After = " + lform.iselected.value);
+ }
+ /* .....End........ */   
+  
+ /* ..... Start: GF01-019B..... */
+ function itemscbox2(lform,grpobj,itemval,checkstate,listobj,listobj2,grpobj2,cindex,indi){   
+
+  //Init 
+  if ((indi == "9")) {
+   if (grpobj[cindex]) {
+    grpobj[cindex].checked = false;
+   }
+   else {
+    grpobj.checked = false;
+   }
+  }
+  else { 
+   //Clean second CB 
+   if (checkstate == true) { 
+     
+    if (grpobj2[cindex]) {
+     grpobj2[cindex].checked = false;
+    }
+    else {
+     grpobj2.checked = false;
+    }
+    prepitemslist2(lform,itemval,'R',listobj2,listobj2,grpobj2); 
+   }
+    
+   //
+   if (checkstate == true) {    
+    prepitemslist2(lform,itemval,'A',listobj,listobj2,grpobj2);   
+   }  
+   else {
+    prepitemslist2(lform,itemval,'R',listobj,listobj2,grpobj2); 
+   }
+
+   //Mark As Modified
+   markmodified(lform,itemval);
+   
+  }
+  //       
+
+  //alert("List 1 ... =" + listobj.value + "\n" + "List2 = " + listobj2.value);   
+ }
+ /* .....End........ */   
+  
+  
+ /* ..... Start: GF01-019C..... */
+ function itemscbox3(lform,grpobj,itemval,checkstate,listobj,listobj2,grpobj2,listobj3,cindex){   
+  var olditemlist;
+   
+  //Init 
+  if (checkstate == true) { 
+   valok    = false; 
+   itmgross = 0;
+   isign    = 1;
+   if (grpobj2[cindex]) {
+    itemval2 = grpobj2[cindex].value;   
+    itmgross = lform.grossval[cindex].value;
+    if (lform.netbal[cindex].value >= 0) {
+     isign = 1;
+    }
+    else {
+     isign = -1;
+    }
+   }
+   else {
+    itemval2 = grpobj2.value;   
+    itmgross = lform.grossval.value;   
+    if (lform.netbal.value >= 0) {
+     isign = 1;
+    }
+    else {
+     isign = -1;
+    }
+   }
+   if ((itemval2 != "0") && (itemval2 != "")) {
+    itemval2 = uppercase(itemval2);
+    chkres = IsNumeric(itemval2,'MTH',true);
+    if (chkres != false) {
+     valok = true; 
+     itemval2 = chkres;
+    }
+   }
+   else {
+    chkres = itemval2;
+    valok  = true; 
+   }
+    
+   if (valok == true) { 
+    chkres   = Math.abs(chkres) * isign;
+    itemval2 = chkres;
+    if (grpobj2[cindex]) {
+     grpobj2[cindex].value = chkres;
+    }
+    else {
+     grpobj2.value = chkres;
+    }
+    if ((itmgross * 1) < (itemval2 * 1)) {
+     alert("Matching Amount Cannot Be Greater Than Gross Amount");
+     if (grpobj2[cindex]) { 
+      grpobj2[cindex].focus();
+      grpobj[cindex].checked = false;
+     }
+     else { 
+      grpobj2.focus();
+      grpobj.checked = false;
+     } 
+    }
+    else {           
+     prepitemslist3(lform,itemval,'A',listobj,listobj2,grpobj2,itemval2,listobj3,cindex);   
+    }
+   }
+   else { 
+    alert("Invalid Xter in Matching Value");
+    if (grpobj2[cindex]) { 
+     grpobj2[cindex].focus();
+     grpobj[cindex].checked = false;
+    }
+    else { 
+     grpobj2.focus();
+     grpobj.checked = false;
+    } 
+   }
+  }  
+  else {
+   if (grpobj2[cindex]) {
+    itemval2 = grpobj2[cindex].value;   
+   }
+   else {
+    itemval2 = grpobj2.value;   
+   }
+   prepitemslist3(lform,itemval,'R',listobj,listobj2,grpobj2,itemval2,listobj3,cindex); 
+  }
+
+  //Mark As Modified
+  markmodified(lform,itemval);
+   
+
+  //alert("List1 = ..." + listobj.value + "\n" + "List2 = ..." + listobj2.value + "\n" + "List3 = ..." + listobj3.value);  
+ }
+ /* .....End........ */   
+  
+
+ /* ..... Start: GF01-019D..... */
+ function itemscbox4(lform,grpobj,itemval,checkstate,listobj,listobj2,listobj3,listobj4,cindex){
+  var olditemlist;   
+
+  if (checkstate == true) {   
+   prepitemslist4(lform,itemval,'A',listobj,listobj2,listobj3,listobj4,cindex);
+  }  
+  else {
+   prepitemslist4(lform,itemval,'R',listobj,listobj2,listobj3,listobj4,cindex); 
+  }
+  //
+       
+  //alert("List After = " + listobj.value);
+ }
+ /* .....End........ */   
+          
+ /* ..... Start: GF01-020..... */
+ function initcb_withlist(lform,itemsobj,ilist){  
+   
+  //alert("In Function ... List = " + ilist);
+   
+  itemarr = ilist.split(",");
+  //alert("First Item In Array, array len  = " + itemarr[0] + " / " + itemarr.length);
+   
+  if (itemsobj) {
+   //alert("In Function ... Point 2.");
+       
+   itemlen = itemarr.length;
+   if (itemsobj.length) {
+    objlen = itemsobj.length; 
+   }
+   else {
+    objlen = 0;
+   }
+   //alert("Object Length = " + objlen);
+
+   for (i3=0; i3<itemlen;i3++){
+    itemsval = itemarr[i3];
+     
+    if (objlen > 0) {            
+     for (i4=0; i4<itemsobj.length;i4++){      
+      if (itemsobj[i4].value == itemsval) {  
+       itemsobj[i4].checked = true;
+       break;     
+      } 
+     }   
+    }
+    else {
+     if (itemsobj.value == itemsval) {  
+      itemsobj.checked = true;    
+      break;
+     } 
+    }
+    
+   } 
+  } 
+ } 
+ /* .....End........ */
+ /* ..... Start: GF01-020..... */
+ function initcb_withlist_ref(lform,itemsobj,ilist,refobj,reflist){  
+   
+  //alert("In Function ... List = " + ilist);
+   
+  itemarr = ilist.split(",");
+  refarr  = reflist.split(",");
+  //alert("First Item In Array, array len  = " + itemarr[0] + " / " + itemarr.length);
+   
+  if (itemsobj) {
+   //alert("In Function ... Point 2.");
+       
+   itemlen = itemarr.length;
+   if (itemsobj.length) {
+    objlen = itemsobj.length; 
+   }
+   else {
+    objlen = 0;
+   }
+   //alert("Object Length = " + objlen);
+
+   for (i3=0; i3<itemlen;i3++){
+    itemsval = itemarr[i3];
+     
+    if (objlen > 0) {            
+     for (i4=0; i4<itemsobj.length;i4++){      
+      if (itemsobj[i4].value == itemsval) {  
+       itemsobj[i4].checked = true;
+       refobj[i4].value = uppercase(refarr[i3]);
+       break;     
+      } 
+     }   
+    }
+    else {
+     if (itemsobj.value == itemsval) {  
+      itemsobj.checked = true;  
+	  refobj.value     = uppercase(refarr[i3]);  
+      break;
+     } 
+    }
+    
+   } 
+  } 
+ }   
+  
+ 
+ /* ..... Start: GF01-021..... */
+ function prepitemslist(lform,itemval,opr){  
+
+  itemlist = lform.iselected.value;
+  itemidx = -1;
+
+  itemarr = itemlist.split(",");
+  for (i=0; i<itemarr.length;i++){
+   if (itemarr[i] == itemval) {
+    itemidx = i;
+    break;
+   }
+  }
+
+  //alert("Current List = " +  itemlist);
+
+  newlist = "";  
+  if (opr == "R") {
+   if (itemidx >= 0) {
+    for (i2=0; i2<itemarr.length;i2++){
+     if (i2 != itemidx) {
+      if (newlist == ""){
+       newlist= itemarr[i2];
+      }
+      else {
+       newlist= newlist + "," + itemarr[i2];
+      }      
+     }
+    }    
+   }   
+  }
+  else {
+   if (itemidx == -1) {
+    itemarr[itemarr.length] = itemval;
+   }
+   for (i2=0; i2<itemarr.length;i2++){    
+    if (newlist == ""){
+     newlist= itemarr[i2];
+    }
+    else {
+     newlist= newlist + "," + itemarr[i2];
+    } 
+   } 
+  }  
+
+  lform.iselected.value = newlist;
+ } 
+ /* .....End........ */  
+
+
+ /* ..... Start: GF01-021B..... */
+ function prepitemslist2(lform,itemval,opr,listobj,listobj2,grpobj2){  
+
+  itemlist = listobj.value;
+  itemidx = -1;
+
+  itemarr = itemlist.split(",");
+  for (i=0; i<itemarr.length;i++){
+   if (itemarr[i] == itemval) {
+    itemidx = i;    
+    break;
+   }
+  }
+
+  //alert("Current List = " +  itemlist);
+
+  newlist = "";  
+  if (opr == "R") {
+   if (itemidx >= 0) {
+    for (i2=0; i2<itemarr.length;i2++){
+     if (i2 != itemidx) {
+      if (newlist == ""){
+       newlist= itemarr[i2];
+      }
+      else {
+       newlist= newlist + "," + itemarr[i2];
+      }      
+     }
+    }    
+   }   
+  }
+  else {
+   if (itemidx == -1) {
+    itemarr[itemarr.length] = itemval;
+   }
+   for (i2=0; i2<itemarr.length;i2++){    
+    if (newlist == ""){
+     newlist= itemarr[i2];
+    }
+    else {
+     newlist= newlist + "," + itemarr[i2];
+    } 
+   } 
+  }  
+
+  listobj.value = newlist;
+ } 
+ /* .....End........ */  
+
+ /* ..... Start: GF01-021C..... */
+ function prepitemslist3(lform,itemval,opr,listobj,listobj2,grpobj2,itemval2,listobj3,cindex){  
+
+  itemlist = listobj.value;
+  itemlist2= listobj2.value;
+  itemlist3= listobj3.value;
+
+  itemlist4= lform.comper.value;
+  itemlist5= lform.dnetbal.value;
+
+   
+  itemidx = -1;
+
+  itemarr = itemlist.split(",");
+  itemarr2 = itemlist2.split(",");
+  itemarr3 = itemlist3.split(",");
+  itemarr4 = itemlist4.split(",");
+  itemarr5 = itemlist5.split(",");
+  for (i=0; i<itemarr.length;i++){
+   if (itemarr[i] == itemval) {
+    itemidx = i;    
+    break;
+   }
+  }
+
+  //alert("opr, Itemval, itemval2, itemidx = " + opr + " , " +  itemval + " , " + itemval2 + " , " + itemidx);
+
+  newlist = "";  
+  newlist2= "";  
+  newlist3= "";  
+  newlist4= "";  
+  newlist5= "";  
+  lform.selbal.value = trimcoma(lform.selbal.value);
+  if (opr == "R") {
+   //
+   if (itemidx >= 0) {
+    if (grpobj2[cindex]) {
+     ival2                 = grpobj2[cindex].value * 1;
+     grpobj2[cindex].value = 0;
+    }
+    else {
+     ival2         = grpobj2.value * 1;
+     grpobj2.value = 0;
+    }
+    lform.selbal.value = (lform.selbal.value * 1) - (ival2 * 1);
+
+    for (i2=0; i2<itemarr.length;i2++){
+     if (i2 != itemidx) {
+      if (newlist == ""){
+       newlist = itemarr[i2];    
+       newlist2= itemarr2[i2];
+       newlist3= itemarr3[i2];
+       newlist4= itemarr4[i2];
+       newlist5= itemarr5[i2];
+      }
+      else {
+       newlist = newlist  + "," + itemarr[i2];
+       newlist2= newlist2 + "," + itemarr2[i2];
+       newlist3= newlist3 + "," + itemarr3[i2];
+       newlist4= newlist4 + "," + itemarr4[i2];
+       newlist5= newlist5 + "," + itemarr5[i2];
+      }       
+     }
+    }     
+   } 
+   //
+  } 
+  else {
+   if (itemidx == -1) {
+    if (grpobj2[cindex]) {
+     ival2  = (grpobj2[cindex].value * 1);
+    }
+    else {
+     ival2  = (grpobj2.value * 1);
+    }
+     
+    itemarr[itemarr.length]   = itemval;
+    if (itemval2 != 0) {
+     itemarr2[itemarr2.length] = itemval2;
+    }
+    else {
+     if (grpobj2[cindex]) {
+      netbal                = lform.netbal[cindex].value;
+      grpobj2[cindex].value = netbal;
+      ival2 = netbal;
+     }
+     else {
+      netbal        = lform.netbal.value;
+      grpobj2.value = netbal;
+      ival2 = netbal;
+     }
+     itemarr2[itemarr2.length] = netbal;
+    } 
+     
+    if (lform.curdoc[cindex]) { 
+     itemarr3[itemarr3.length] = lform.curdoc[cindex].value;
+     itemarr4[itemarr4.length] = lform.curperc[cindex].value;
+     itemarr5[itemarr5.length] = lform.netbal[cindex].value;
+    }
+    else { 
+     itemarr3[itemarr3.length] = lform.curdoc.value;  
+     itemarr4[itemarr4.length] = lform.curperc.value;
+     itemarr5[itemarr5.length] = lform.netbal.value;
+    }
+     
+    //
+    lform.selbal.value = (lform.selbal.value * 1) + (ival2 * 1);
+   }
+   for (i5=0; i5<itemarr.length;i5++){    
+    if (newlist == ""){
+     newlist  = itemarr[i5]; 
+     if (i5 == itemidx) {                 
+      newlist2= itemval2;
+     }
+     else {
+      newlist2= itemarr2[i5];
+     }
+     newlist3 = itemarr3[i5];
+     newlist4 = itemarr4[i5];
+     newlist5 = itemarr5[i5];
+    }
+    else {
+     newlist = newlist + "," + itemarr[i5];
+     if (i5 == itemidx) {                 
+      newlist2= newlist2 + "," + itemval2;
+     }
+     else {
+      newlist2= newlist2 + "," + itemarr2[i5];
+     }
+     newlist3 = newlist3 + "," + itemarr3[i5];
+     newlist4 = newlist4 + "," + itemarr4[i5];
+     newlist5 = newlist5 + "," + itemarr5[i5];
+    } 
+   } 
+  }  
+
+  listobj.value  = newlist;
+  listobj2.value = newlist2;
+  listobj3.value = newlist3;
+
+  lform.comper.value = newlist4;
+  lform.dnetbal.value= newlist5;
+   
+  //
+  lform.selbal.value = Math.round(lform.selbal.value * 100) / 100;
+
+  //alert("List1 = ..." + listobj.value + "\n" + "List2 = ..." + listobj2.value + "\n" + "List3 = ..." + listobj3.value + "\n" + "List4 = ..." + lform.comper.value + "\n" + "List5 = ..." + lform.dnetbal.value);  
+ } 
+ /* .....End........ */  
+
+
+ /* ..... Start: GF01-021D..... */
+ function prepitemslist4(lform,itemval,opr,listobj,listobj2,listobj3,listobj4,cindex){  
+
+  itemlist = listobj.value;
+  itemlist2= listobj2.value;
+  itemlist3= listobj3.value;
+  itemlist4= listobj4.value;
+  itemidx = -1;
+
+  itemarr = itemlist.split(",");
+  itemarr2= itemlist2.split(",");
+  itemarr3= itemlist3.split(",");
+  itemarr4= itemlist4.split(",");
+  for (i=0; i<itemarr.length;i++){
+   if (itemarr[i] == itemval) {
+    itemidx = i;
+    break;
+   }
+  } 
+  
+  //
+  if (lform.refdetails[cindex]) { 
+   refdetlist = lform.refdetails[cindex].value;
+  }
+  else { 
+   refdetlist = lform.refdetails.value;
+  } 
+  refdet     = refdetlist.split(",");
+  refamt     = refdet[1];
+  reftyp     = refdet[2];
+    
+  //alert("Current List = " +  itemlist); 
+
+  newlist = "";  
+  newlist2= "";  
+  newlist3= "";  
+  newlist4= "";  
+  lform.selbal.value = trimcoma(lform.selbal.value);
+
+  if (opr == "R") {   
+   if (itemidx >= 0) {
+    lform.selbal.value = (lform.selbal.value * 1) - (refamt * 1);
+    for (i2=0; i2<itemarr.length;i2++){
+     if (i2 != itemidx) {
+      if (newlist == ""){
+       newlist = itemarr[i2];
+       newlist2= itemarr2[i2];
+       newlist3= itemarr3[i2];
+       newlist4= itemarr4[i2];
+      }
+      else {
+       newlist = newlist + "," + itemarr[i2];
+       newlist2= newlist2 + "," + itemarr2[i2];
+       newlist3= newlist3 + "," + itemarr3[i2];
+       newlist4= newlist4 + "," + itemarr4[i2];
+      }      
+     }
+    }    
+   }   
+  }
+  else {
+   if (itemidx == -1) {
+    itemarr[itemarr.length]   = itemval;
+    itemarr2[itemarr2.length] = refamt;
+    itemarr3[itemarr3.length] = reftyp;
+     
+    if (lform.curref[cindex]) {
+     itemarr4[itemarr4.length] = lform.curref[cindex].value;
+    }
+    else { 
+     itemarr4[itemarr4.length] = lform.curref.value;
+    }
+     
+    lform.selbal.value = (lform.selbal.value * 1) + (refamt * 1); 
+   }
+   for (i2=0; i2<itemarr.length;i2++){    
+    if (newlist == ""){
+     newlist= itemarr[i2];
+     newlist2= itemarr2[i2];
+     newlist3= itemarr3[i2];
+     newlist4= itemarr4[i2];
+    }
+    else {
+     newlist= newlist + "," + itemarr[i2];
+     newlist2= newlist2 + "," + itemarr2[i2];
+     newlist3= newlist3 + "," + itemarr3[i2];
+     newlist4 = newlist4 + "," + itemarr4[i2];
+    } 
+   } 
+  }  
+
+  listobj.value  = newlist;
+  listobj2.value = newlist2;
+  listobj3.value = newlist3;
+  listobj4.value = newlist4;
+  lform.selbal.value = Math.round(lform.selbal.value * 100) / 100;
+  //alert("Current Lists = " +  newlist + "\n" + newlist2 + "\n" + newlist3);
+ } 
+ /* .....End........ */  
+
+
+ /* ..... Start: GF01-021E..... */
+ function markmodified(lform,itemval){  
+
+  itemlist = lform.modified.value;
+  itemidx  = -1;
+  newlist  = "";
+
+  if (itemlist != "") {
+   itemarr = itemlist.split(",");
+   for (i=0; i<itemarr.length;i++){
+    if (itemarr[i] == itemval) {
+     itemidx = i;    
+     break;
+    }
+   }
+  }
+   
+  if (itemidx == -1) {
+   itemarr[itemarr.length] = itemval;
+  }
+  
+  for (i2=0; i2<itemarr.length;i2++){    
+   if (newlist == ""){
+    newlist= itemarr[i2];
+   }
+   else {
+    newlist= newlist + "," + itemarr[i2];
+   } 
+  } 
+
+  lform.modified.value = newlist;  
+ } 
+ /* .....End........ */  
+  
+
+ /* ..... Start: GF01-022..... */
+ function buteff(butx,etype) {
+  if (etype == 0) {
+   butx.imgRolln = butx.src;
+   butx.src      = butx.lowsrc;
+  }
+  else {
+   butx.src=butx.imgRolln;
+  }
+ } 
+ /* .....End........ */  
+
+
+ /* ..... Start: GF01-023..... */
+ function IsNumeric(strString,sxters,valindi) {
+   
+  //axters  = special xters allowed in the numeric test
+  //valindi = Indicator for wether B,M,T, and H allowed for Billion, Million,Thousand, 
+  //          and Hundred Specification. If allowed the converted number is returned
+
+  var strValidChars = "0123456789.-";
+  if (sxters != ""){
+   strValidChars = strValidChars + sxters;
+  }
+  var strChar;
+  var blnResult = true;
+  var pdetect   = 0;
+  var Bdetect   = 0;
+  var Mdetect   = 0;
+  var Tdetect   = 0;
+  var Hdetect   = 0;
+  var fvalue    = "";
+
+  if (strString.length == 0) {
+   return true;
+  }
+
+  //test strString consists of valid characters listed above
+  for (i = 0; i < strString.length && blnResult == true; i++){
+   strChar = strString.charAt(i);
+
+   if (strChar == ".") {
+    pdetect++;
+    if (pdetect > 1) {
+     blnResult = false;
+    }
+   }
+
+   if (valindi == true) {     
+    if (strChar == "B") {
+     Bdetect++;
+    }
+    else if (strChar == "M") {
+     Mdetect++;
+    }
+    else if (strChar == "T") {
+     Tdetect++;     
+    }
+    else if (strChar == "H") {
+     Hdetect++;     
+    }
+    else {
+     fvalue = fvalue + strChar;
+    }
+     
+    if (((Bdetect*1) + (Mdetect*1) + (Tdetect *1) + (Hdetect *1)) > 1) {
+     blnResult = false;
+    }     
+   }
+
+   if (strValidChars.indexOf(strChar) == -1){
+    blnResult = false;
+   }
+  }
+
+  if (blnResult == false) {
+   return blnResult;
+  }
+  else {
+   if (valindi == true) {   
+    if (Bdetect > 0) {
+     fvalue = fvalue * 1000000000;
+    }
+    else if (Mdetect > 0) {
+     fvalue = fvalue * 1000000;
+    }
+    else if (Tdetect > 0) {
+     fvalue = fvalue * 1000;
+    }
+    else if (Hdetect > 0) {
+     fvalue = fvalue * 100;
+    }
+   }
+   else {
+    fvalue = true;
+   }
+   return fvalue;
+  }
+ }
+ /* .....End........ */ 
+
+
+ /* ..... Start: GF01-023B..... */
+ function IsNumeric2(strString,sxters,valindi) {
+   
+  //axters  = special xters allowed in the numeric test
+  //valindi = Indicator for wether B,M,T, and H allowed for Billion, Million,Thousand, 
+  //          and Hundred Specification. If allowed the converted number is returned
+
+  var strValidChars = "0123456789.-";
+  if (sxters != ""){
+   strValidChars = strValidChars + sxters;
+  }
+  var strChar;
+  var blnResult = "ok";
+  var pdetect   = 0;
+  var Bdetect   = 0;
+  var Mdetect   = 0;
+  var Tdetect   = 0;
+  var Hdetect   = 0;
+  var fvalue    = "";
+  strString = trimall(strString);
+   
+  //test strString consists of valid characters listed above
+  for (i = 0; i < strString.length && blnResult == "ok"; i++){
+   strChar = strString.charAt(i);
+
+   if (strChar == ".") {
+    pdetect++;
+    if (pdetect > 1) {
+     blnResult = "invalid";
+    }
+   }
+
+   if (valindi == true) {     
+    if (strChar == "B") {
+     Bdetect++;
+    }
+    else if (strChar == "M") {
+     Mdetect++;
+    }
+    else if (strChar == "T") {
+     Tdetect++;     
+    }
+    else if (strChar == "H") {
+     Hdetect++;     
+    }
+    else {
+     fvalue = fvalue + strChar;
+    }
+     
+    if (((Bdetect*1) + (Mdetect*1) + (Tdetect *1) + (Hdetect *1)) > 1) {
+     blnResult = "invalid";
+    }     
+   }
+
+   if (strValidChars.indexOf(strChar) == -1){
+    blnResult = "invalid";
+   }
+  }
+
+  if (blnResult == "invalid") {
+   return blnResult;
+  }
+  else {
+   if (valindi == true) {   
+    if (Bdetect > 0) {
+     fvalue = fvalue * 1000000000;
+    }
+    else if (Mdetect > 0) {
+     fvalue = fvalue * 1000000;
+    }
+    else if (Tdetect > 0) {
+     fvalue = fvalue * 1000;
+    }
+    else if (Hdetect > 0) {
+     fvalue = fvalue * 100;
+    }
+   }
+   else {
+    fvalue = "ok";
+   }
+   return fvalue;
+  }
+
+ }
+ /* .....End........ */
+
+
+
+ /* ..... Start: GF01-024..... */
+ function replacespace(xstring,xter,conseq) {
+  var newstr = "";
+
+  //NB: xter is the replacement xter, conseq is how many consequitive times the
+  //    the replacement xter may follow each other in an instance.
+  if (xter == "") {
+   xter = "-";
+  }
+  
+  occur = 0;
+  for (xj=0;xj < xstring.length;xj++) {
+   if (xstring.substring(xj,xj+1) == ' ') {
+    occur++;
+    if (occur <= conseq) {
+     newstr = newstr + xter;
+    }
+   }
+   else {
+    newstr = newstr + xstring.substring(xj,xj+1);
+    occur = 0;
+   }
+  }       
+  return newstr;
+ }
+ /* .....End........ */  
+
+
+ /* ..... Start: GF01-024A..... */
+ function Amt2Words(pAmount) {
+
+  FillNumbers();
+  signx = ""; 
+  if (pAmount < 0) {
+   signx = "( Minus ) "
+  }
+  pAmount = Math.abs(trimcoma(pAmount));
+  pleft   = pAmount;
+  retword = "";
+  if ((pAmount * 1) == 0) {
+   retword = "Zero";
+  }
+
+  //Check Billions
+  bval = Math.floor(pleft / 1000000000); 
+  if (bval > 999) {
+   bval = 999;
+  }
+
+  if ((bval > 0) && (bval <= 999)) {
+   pleft = pleft - (bval * 1000000000);
+   pleft = pleft.toFixed(2);
+   
+   if (bval > 99) {
+    bhu = Math.floor(bval/100);
+    retword = retword + AmtCnvrt(eval(bhu),"") + " Hundred ";
+    bhu2 = (bval - (bhu * 100));
+    if (bhu2 > 0) {
+     retword =  retword + " And " + AmtCnvrt(eval(bhu2),"");
+    } 
+    retword = retword + " Billion, ";
+   } 
+   else {
+    retword = retword + AmtCnvrt(eval(bval),'') + " Billion, ";
+   }     
+  } 
+  
+
+  //Check Million
+  bval = Math.floor(pleft / 1000000); 
+  if (bval > 999) {
+   bval = 999;
+  }
+ 
+  if ((bval > 0) && (bval <= 999)) {
+   pleft = pleft - (bval * 1000000);
+   pleft = pleft.toFixed(2);
+   if (bval > 99) {
+    bhu = Math.floor(bval/100);
+    retword = retword + AmtCnvrt(eval(bhu),"") + " Hundred ";
+    bhu2 = (bval - (bhu * 100));
+    if (bhu2 > 0) {
+     if (retword != "") {
+      retword =  retword + " And " + AmtCnvrt(eval(bhu2),"");
+     }
+     else {
+      retword =  AmtCnvrt(eval(bhu2),"");
+     }
+    } 
+    retword = retword + " Million, ";
+   } 
+   else {
+    retword = retword + AmtCnvrt(eval(bval),'') + " Million, ";
+   }     
+  } 
+
+  //Check Thousands 
+  bval = Math.floor(pleft / 1000); 
+  if (bval > 999) {
+   bval = 999;
+  }
+        
+  if ((bval > 0) && (bval <= 999)) {
+   pleft = pleft - (bval * 1000);
+   pleft = pleft.toFixed(2);    
+   
+   if (bval > 99) {
+    bhu = Math.floor(bval/100);
+    retword = retword + AmtCnvrt(eval(bhu),"") + " Hundred ";
+    bhu2 = (bval - (bhu * 100));
+    if (bhu2 > 0) {
+     if (retword != "") {
+      retword =  retword + " And " + AmtCnvrt(eval(bhu2),"");
+     }
+     else {
+      retword =  AmtCnvrt(eval(bhu2),"");
+     }
+    } 
+    retword = retword + " Thousand, ";
+   } 
+   else {
+    retword = retword + AmtCnvrt(eval(bval),'') + " Thousand, ";
+   }     
+  } 
+
+  //Check Hundreds 
+  bval = Math.floor(pleft / 100);   
+       
+  if ((bval > 0) && (bval <= 999)) {
+   pleft = pleft - (bval * 100);
+   pleft = pleft.toFixed(2);
+    
+   if (bval > 9) {
+    bhu = Math.floor(bval/100);
+    retword = retword + AmtCnvrt(eval(bhu),"") + " Hundred ";
+    bhu2 = (bval - (bhu * 100));
+    if (bhu2 > 0) {
+     if (retword != "") {
+      retword =  retword + " And " + AmtCnvrt(eval(bhu2),"");
+     }
+     else {
+      retword =  " And" + AmtCnvrt(eval(bhu2),"");
+     }
+    } 
+    retword = retword + " point ";
+   } 
+   else {
+    retword = retword + AmtCnvrt(eval(bval),'') + " Hundred ";
+   }     
+  }
+
+  //   
+  //Check Tens  
+  if  (pleft > 0) {
+   bval = Math.floor(pleft / 1);   
+   if (bval >= 1) {
+    pleft = pleft - (bval * 1);
+    pleft = pleft.toFixed(2);
+    if (retword != "") {
+     retword = retword + " And " + AmtCnvrt(eval(bval),'') ;
+    }
+    else {
+     retword = AmtCnvrt(eval(bval),'') ;
+    }
+   }
+  }
+   
+  //Decimals
+  dcloc = "";
+  if (pleft > 0) {
+   decloc = pleft.indexOf(".",0);
+   ndec = pleft.substr(decloc+1,1);
+   retword = retword + " POINT " + AmtCnvrt(eval(ndec),'') ;   
+   ndec = pleft.substr(decloc+2,1);
+   if (ndec) {
+    retword = retword + ", " + AmtCnvrt(eval(ndec),'') ;  
+   }
+  }
+  
+  //    
+  return signx + retword;    
+ }
+ /* .....End........ */  
+  
+ /* ..... Start: GF01-024B..... */
+ function AmtCnvrt(pNo,pStr) {
+  pNo = eval(pNo);
+  return (mNos[pNo] + " " + pStr);
+ }
+ /* .....End........ */  
+   
+ /* ..... Start: GF01-024C..... */
+ function FillNumbers() {
+  mNos[0] = "Zero";
+  mNos[1] = "One";
+  mNos[2] = "Two";
+  mNos[3] = "Three";
+  mNos[4] = "Four";
+  mNos[5] = "Five";
+  mNos[6] = "Six";
+  mNos[7] = "Seven";
+  mNos[8] = "Eight";
+  mNos[9] = "Nine";
+  mNos[10] = "Ten";
+  mNos[11] = "Eleven";
+  mNos[12] = "Twelve";
+  mNos[13] = "Thirteen";
+  mNos[14] = "Fourteen";
+  mNos[15] = "Fifteen";
+  mNos[16] = "Sixteen";
+  mNos[17] = "Seventeen";
+  mNos[18] = "Eighteen";
+  mNos[19] = "Nineteen";
+  mNos[20] = "Twenty";
+  mNos[21] = "Twenty One";
+  mNos[22] = "Twenty Two";
+  mNos[23] = "Twenty Three";
+  mNos[24] = "Twenty Four";
+  mNos[25] = "Twenty Five";
+  mNos[26] = "Twenty Six";
+  mNos[27] = "Twenty Seven";
+  mNos[28] = "Twenty Eight";
+  mNos[29] = "Twenty Nine";
+  mNos[30] = "Thirty";
+  mNos[31] = "Thirty One";
+  mNos[32] = "Thirty Two";
+  mNos[33] = "Thirty Three";
+  mNos[34] = "Thirty Four";
+  mNos[35] = "Thirty Five";
+  mNos[36] = "Thirty Six";
+  mNos[37] = "Thirty Seven";
+  mNos[38] = "Thirty Eight";
+  mNos[39] = "Thirty Nine";
+  mNos[40] = "Forty";
+  mNos[41] = "Forty One";
+  mNos[42] = "Forty Two";
+  mNos[43] = "Forty Three";
+  mNos[44] = "Forty Four";
+  mNos[45] = "Forty Five";
+  mNos[46] = "Forty Six";
+  mNos[47] = "Forty Seven";
+  mNos[48] = "Forty Eight";
+  mNos[49] = "Forty Nine";
+  mNos[50] = "Fifty";
+  mNos[51] = "Fifty One";
+  mNos[52] = "Fifty Two";
+  mNos[53] = "Fifty Three";
+  mNos[54] = "Fifty Four";
+  mNos[55] = "Fifty Five";
+  mNos[56] = "Fifty Six";
+  mNos[57] = "Fifty Seven";
+  mNos[58] = "Fifty Eight";
+  mNos[59] = "Fifty Nine";
+  mNos[60] = "Sixty";
+  mNos[61] = "Sixty One";
+  mNos[62] = "Sixty Two";
+  mNos[63] = "Sixty Three";
+  mNos[64] = "Sixty Four";
+  mNos[65] = "Sixty Five";
+  mNos[66] = "Sixty Six";
+  mNos[67] = "Sixty Seven";
+  mNos[68] = "Sixty Eight";
+  mNos[69] = "Sixty Nine";
+  mNos[70] = "Seventy";
+  mNos[71] = "Seventy One";
+  mNos[72] = "Seventy Two";
+  mNos[73] = "Seventy Three";
+  mNos[74] = "Seventy Four";
+  mNos[75] = "Seventy Five";
+  mNos[76] = "Seventy Six";
+  mNos[77] = "Seventy Seven";
+  mNos[78] = "Seventy Eight";
+  mNos[79] = "Seventy Nine";
+  mNos[80] = "Eighty";
+  mNos[81] = "Eighty One";
+  mNos[82] = "Eighty Two";
+  mNos[83] = "Eighty Three";
+  mNos[84] = "Eighty Four";
+  mNos[85] = "Eighty Five";
+  mNos[86] = "Eighty Six";
+  mNos[87] = "Eighty Seven";
+  mNos[88] = "Eighty Eight";
+  mNos[89] = "Eighty Nine";
+  mNos[90] = "Ninety";
+  mNos[91] = "Ninety One";
+  mNos[92] = "Ninety Two";
+  mNos[93] = "Ninety Three";
+  mNos[94] = "Ninety Four";
+  mNos[95] = "Ninety Five";
+  mNos[96] = "Ninety Six";
+  mNos[97] = "Ninety Seven";
+  mNos[98] = "Ninety Eight";
+  mNos[99] = "Ninety Nine";
+ } 
+ /* .....End........ */  
+ 
+
+ /* ..... Start: GF01-025A..... */
+ function rd_select2(rdobj,storeobj,val1,val2) { 
+    
+  if (rdobj) {
+   if (rdobj[0].checked == true) {
+    storeobj.value = val1;
+   }
+   else if (rdobj[1].checked == true) {
+    storeobj.value = val2;
+   }
+  }  
+ } 
+ /* .....End........ */  
+
+ /* ..... Start: GF01-025B..... */
+ function rd_select2_init(rdobj,storeobj,val1,val2) { 
+
+  if (rdobj) {
+   if (storeobj.value == val1) {
+    rdobj[0].checked = true;
+   }
+   else if (storeobj.value == val2) {
+    rdobj[1].checked = true;
+   }
+  }  
+ } 
+ /* .....End........ */  
+
+
+ /* ..... Start: GF01-026A..... */
+ function rd_select3(rdobj,storeobj,val1,val2,val3) { 
+    
+  if (rdobj) {
+   if (rdobj[0].checked == true) {
+    storeobj.value = val1;
+   }
+   else if (rdobj[1].checked == true) {
+    storeobj.value = val2;
+   }
+   else if (rdobj[2].checked == true) {
+    storeobj.value = val3;
+   }
+  }  
+ } 
+ /* .....End........ */  
+
+ /* ..... Start: GF01-026B..... */
+ function rd_select3_init(rdobj,storeobj,val1,val2,val3) { 
+
+  if (rdobj) {
+   if (storeobj.value == val1) {
+    rdobj[0].checked = true;
+   }
+   else if (storeobj.value == val2) {
+    rdobj[1].checked = true;
+   }
+   else if (storeobj.value == val3) {
+    rdobj[2].checked = true;
+   }
+  }  
+ }   
+ /* .....End........ */   
+
+
+ /* ..... Start: GF01-027..... */
+ function number_expand(numobj,nvals) { 
+
+  if (nvals == "") {
+   nvals = "HTMB";
+  }
+     
+  numobj.value  = uppercase(numobj.value);
+  numobj.value  = trimcoma(numobj.value);
+  tval          = IsNumeric2(numobj.value,nvals,true);
+  if (tval != "invalid") {
+   numobj.value = tval;
+  } 
+  
+ }   
+ /* .....End........ */    
+
+ /* .....Start: GF01-028.... */
+ function resolve_optobj(lform,optobj,action,val) { 
+        
+  if (action == "init") {
+   if (optobj[val]) {    
+    optobj[val].checked = true;        
+   } 
+  }      
+  else if (action == "setval") { 
+   //Dest
+   cnt = optobj.length; 
+   for (xi=0;xi<cnt;xi++) {
+    if (optobj[xi].checked == true) {
+     if (optobj[xi].name == "rd_docdest") {
+      lform.pdest.value = xi;
+     }
+     else if (optobj[xi].name == "rd_order") {
+      lform.porder.value = xi;
+     }
+     if (optobj[xi].name == "rd_filter") {
+      lform.pfilter.value = xi; 
+     }  
+     break;  
+    }   
+   }     
+  }   
+        
+ } 
+ /* .....End........ */ 
+  
+
+ /* ..... Start: GF01-029..... */
+ function jumptosdate(dateobj,idate) { 
+
+  if (dateobj) {
+   dateobj.value = idate;
+  }   
+ }   
+ /* .....End........ */ 
+ /* ..... Start: GF01-028..... */
+ function itemscbox_ref(lform,grpobj,itemval,refobj,checkstate,idx){
+  var olditemlist;
+   
+  //olditemlist = lform.irefselected.value;
+  //alert("lform=" + lform + ", grpobj=" + grpobj + ", itemval=" + itemval + ", refobj_val=" + refobj[idx].value + ", idx=" + idx);
+  //
+  tellval = refobj[idx].value;
+  
+  if (checkstate == true) {   
+   prepitemslist_ref(lform,itemval,'A','S');
+   prepitemslist_ref(lform,tellval,'A','T');//Teller
+  }  
+  else {
+   prepitemslist_ref(lform,itemval,'R','S');
+   prepitemslist_ref(lform,tellval,'R','T'); //Teller  
+  }
+  //
+       
+  //alert("List After = " + lform.iselected.value);
+  //alert("ireflist  After = " + lform.irefselected.value);
+ }
+ /* .....End........ */  
+ 
+ /* ..... Start: GF01-029..... */
+ function prepitemslist_ref(lform,itemval,opr,opt){  
+
+  if (opt == "S") itemlist = lform.iselected.value; //Teller
+  else if (opt == "T") itemlist = lform.irefselected.value; //Teller
+  itemidx = -1;
+
+  //alert('1. itemlist = ' + itemlist);
+
+  itemarr = itemlist.split(",");
+  for (i=0; i<itemarr.length;i++){
+   if (itemarr[i] == itemval) {
+    itemidx = i;
+    break;
+   }
+  }
+
+  newlist = "";  
+  if (opr == "R") {
+   if (itemidx >= 0) {
+    for (i2=0; i2<itemarr.length;i2++){
+     if (i2 != itemidx) {
+      if (newlist == ""){
+       newlist= itemarr[i2];
+      }
+      else {
+       newlist= newlist + "," + itemarr[i2];
+      }      
+     }
+    }    
+   }   
+  }
+  else {
+   if (itemidx == -1) {
+    itemarr[itemarr.length] = itemval;
+   }
+   for (i2=0; i2<itemarr.length;i2++){    
+    if (newlist == ""){
+     newlist= itemarr[i2];
+    }
+    else {
+     newlist= newlist + "," + itemarr[i2];
+    } 
+   } 
+  }  
+
+  if (opt == "S") lform.iselected.value = newlist;
+  else if (opt == "T") lform.irefselected.value = newlist;
+ }  
+//-->
+
+
+/* ..... Start: GF01-021..... */
+ function getdatediff(date1, date2, format){
+    if(date2 == '' || date2 == undefined)date2 = (new Date()).toISOString().split('T')[0];
+    if(typeof date1 !== 'undefined' && typeof date2 !== 'undefined' && typeof format !== 'undefined'){
+        var date1 = new Date(date1);
+        var date2 = new Date(date2);
+        var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+        switch(format){
+            case 'D':
+                var diff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            break;
+            case 'Y':
+                var diff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                diff = parseInt(diff) / 365;
+            break;
+            case 'M':
+                var diff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                diff = parseInt(diff) / 365 * 12;
+            break;
+            default :
+                var diff  = 0; 
+            break;
+        }   
+        return Math.floor(diff);
+        
+    }
+ }
+ /* .....End........ */  

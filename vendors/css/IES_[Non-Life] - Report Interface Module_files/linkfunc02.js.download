@@ -1,0 +1,158 @@
+<!--
+
+ /* ..... Start: LF02-001..... */
+ function callrep1(targ,oper,wname,action,citem,citem2,citem3,xwidth,xheight,lof,tof,citem4) {
+
+  var curloc = iesurl+ targ + "?op=" + oper + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3 + "&item4=" + citem4;
+
+  if (xwidth <= 0) {
+   xwidth = 590;
+  }
+  if (xheight <= 0) {
+   xheight = 290;
+  }
+
+  //
+  lval = 1 + lof;
+  tval = 1 + tof;
+  
+   
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,menubar=yes, left=' + lval + ',top=' + tval;
+
+  newwin = window.open(curloc,wname,nwpara);
+  //newwin = window.open(curloc,winname);
+
+  childwins[childwins.length]  = newwin;
+  newwin.focus();
+
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF02-002..... */
+ function callgall(xform,target,action,group,citem,citem2,citem3) {   
+
+  var curloc = iesurl + target + "?targ=" + target + "&op=" + group + "&act=" + action + "&citem=" + citem + "&citem2=" + citem2 + "&citem3=" + citem3;
+
+  xform.action=curloc;
+  xform.submit();
+
+ }
+ /* .....End........ */ 
+
+ /* ..... Start: LF02-003..... */
+ function callreps(repnum,oper,wname,action,citem,citem2,citem3,xwidth,xheight,lof,tof) {
+
+  if (repnum != "") {
+   targ = "";
+
+   switch (repnum) {
+
+    case '100': //GI Reps
+     break;
+
+    case '200': //Non-Life
+     break;
+
+    case '300': //Financial
+     break;
+
+    case '301': 
+     //Unlodged Recipts
+     targ = "reps/iesreps_fn_unlodged_rcpt.php";
+     break;
+
+    case '400': //Human Res.
+     break;
+
+    default:
+     break
+   }
+
+   if (targ != "") { 
+    var curloc = iesurl+ targ + "?op=" + oper + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3;
+     
+    if (xwidth <= 0) {
+     xwidth = 590;
+    }
+    if (xheight <= 0) {
+     xheight = 290;
+    }
+    
+    //
+    lval = 1 + lof;
+    tval = 1 + tof;
+        
+    nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,menubar=yes, left=' + lval + ',top=' + tval;       
+    newwin = window.open(curloc,wname,nwpara);
+    //newwin = window.open(curloc,winname);
+     
+    childwins[childwins.length]  = newwin;
+    newwin.focus();
+   }
+  }
+ }
+ /*..... End .....*/
+
+ /* ..... Start: LF02-004..... */
+ function callwinrep(target,operation,winname,action,citem,citem2,citem3,xwidth,xheight) {  
+
+  var curloc = iesurl+ target + "?op=" + operation + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3; 
+
+  if (xwidth <= 0) {
+   xwidth = 590;     
+  }
+  if (xheight <= 0) {
+   xheight = 290; 
+  }
+
+  //
+  lval = 20;
+  tval = 30;   
+   
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,menubar=yes,left=' + lval + ',top=' + tval;
+  newwin = window.open(curloc,winname,nwpara);
+  //newwin = window.open(curloc,winname);
+  
+  newwin.focus(); 
+
+ }
+ /*..... End .....*/ 
+
+
+ /* ..... Start: LF02-004..... */
+ function callwinrep2(target,operation,winname,action,citem,citem2,citem3,xwidth,xheight,lof,tof) {  
+
+  var curloc = iesurl+ target + "?op=" + operation + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3; 
+
+  if (xwidth <= 0) {
+   xwidth = 590;     
+  }
+  if (xheight <= 0) {
+   xheight = 290; 
+  }
+
+  //
+  lval = 1 + lof;
+  tval = 1 + tof;   
+   
+  nwpara = 'width=' + xwidth + ',height=' + xheight + ',scrollbars=yes,menubar=yes,left=' + lval + ',top=' + tval;
+  newwin = window.open(curloc,winname,nwpara);
+  //newwin = window.open(curloc,winname);
+  
+  newwin.focus(); 
+
+ }
+ /*..... End .....*/ 
+  
+ /* ..... Start: LF02-004..... */
+ function postrep1(lform,target,operation,action,citem,citem2,citem3) {  
+  
+  var curloc = iesurl+ target + "?op=" + operation + "&act=" + action + "&item=" + citem + "&item2=" + citem2 + "&item3=" + citem3;
+   
+  lform.action = curloc;
+  lform.submit();   
+  
+ }
+ /*..... End .....*/
+  
+//-->
